@@ -1,0 +1,46 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Sortie{% endblock %}
+
+{% block body %}
+    <h1>Sortie</h1>
+
+    <table class="table">
+        <tbody>
+            <tr>
+                <th>Id</th>
+                <td>{{ sortie.id }}</td>
+            </tr>
+            <tr>
+                <th>Nom</th>
+                <td>{{ sortie.nom }}</td>
+            </tr>
+            <tr>
+                <th>Date_heure_debut</th>
+                <td>{{ sortie.dateHeureDebut ? sortie.dateHeureDebut|date('Y-m-d H:i:s') : '' }}</td>
+            </tr>
+            <tr>
+                <th>Duree</th>
+                <td>{{ sortie.duree }}</td>
+            </tr>
+            <tr>
+                <th>Date_limite_inscription</th>
+                <td>{{ sortie.dateLimiteInscription ? sortie.dateLimiteInscription|date('Y-m-d H:i:s') : '' }}</td>
+            </tr>
+            <tr>
+                <th>Nb_inscriptions_max</th>
+                <td>{{ sortie.nbInscriptionsMax }}</td>
+            </tr>
+            <tr>
+                <th>Description</th>
+                <td>{{ sortie.description }}</td>
+            </tr>
+        </tbody>
+    </table>
+
+    <a href="{{ path('sortie_index') }}">back to list</a>
+
+    <a href="{{ path('sortie_edit', {'id': sortie.id}) }}">edit</a>
+
+    {{ include('sortie/_delete_form.html.twig') }}
+{% endblock %}
