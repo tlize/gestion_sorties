@@ -1,12 +1,46 @@
 <!DOCTYPE html>
-<html>
-    <head>
-        <meta charset="UTF-8">
-        <title>{% block title %}Welcome!{% endblock %}</title>
-        {% block stylesheets %}{% endblock %}
-    </head>
-    <body>
-        {% block body %}{% endblock %}
-        {% block javascripts %}{% endblock %}
-    </body>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8" >
+    <title>{% block title %}Gestion des Sorties{% endblock %}</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css" integrity="sha384-9aIt2nRpC12Uk9gS9baDl411NQApFmC26EwAOH8WgZl5MYYxFfc+NcPb1dKGj7Sk" crossorigin="anonymous">
+    {% block stylesheets %}{% endblock %}
+</head>
+<body>
+    <nav class="navbar navbar-expand-lg navbar-dark bg-dark d-flex flex-row justify-content-between">
+            <div class="">
+                <a class="navbar-brand" href="{{ path('default_accueil') }}"><img src="#" alt="un beau logo"></a>
+            </div>
+            <div class=" justify-content-end collapse navbar-collapse" id="navbarSupportedContent">
+                <ul class="navbar-nav mr-0">
+                    <li class="nav-item"><a href="#" class="nav-link">Villes</a></li>
+                    <li class="nav-item"><a href="#" class="nav-link">Campus</a></li>
+                    <li class="nav-item"><a href="{{path('default_accueil')}}" class="nav-link">Accueil</a></li>
+                {% if is_granted('IS_AUTHENTICATED_REMEMBERED') %}
+                    <li class="nav-item"><a href="#" class="nav-link">Mon Profil</a></li>
+                    <li class="nav-item"><a href="#" class="nav-link">Se Déconnecter</a></li>
+                {% else %}
+                    <li class="nav-item"><a href="#" class="nav-link">Connexion</a></li>
+                    <li class="nav-item"><a href="#" class="nav-link">Inscription</a></li>
+                {% endif %}
+                </ul>
+            </div>
+    </nav>
+    <div class="d-flex flex-row justify-content-between">
+        <div>
+            <p>bloc1</p>
+        </div>
+        <div>
+            <p>bloc2</p>
+        </div>
+    </div>
+    {% block body %}{% endblock %}
+    <footer>&copy; Max/Corentin/tristan/Max {{ "now" | date("Y") }}</footer>
+
+    {% block javascripts %}{% endblock %}
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js" integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js" integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo" crossorigin="anonymous"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/js/bootstrap.min.js" integrity="sha384-OgVRvuATP1z7JjHLkuOU7Xw704+h835Lr+6QL9UvYjZE3Ipu6Tp75j7Bh/kR0JKI" crossorigin="anonymous"></script>
+</body>
 </html>
+
