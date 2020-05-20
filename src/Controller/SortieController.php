@@ -34,6 +34,13 @@ class SortieController extends AbstractController
         $form = $this->createForm(SortieType::class, $sortie);
         $form->handleRequest($request);
 
+        $organisateur = $this->getUser();
+        $sortie->setOrganisateur($organisateur);
+
+        $etat = $this->getDoctrine()->getManager()->getRepository('App:Etat')->find(1);
+        $sortie->setEtat($etat);
+
+
         if ($form->isSubmitted() && $form->isValid()) {
             $entityManager = $this->getDoctrine()->getManager();
             $entityManager->persist($sortie);

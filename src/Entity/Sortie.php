@@ -68,7 +68,7 @@ class Sortie
     private $campus;
 
     /**
-     * @ORM\ManyToOne(targetEntity=Lieu::class, inversedBy="sorties")
+     * @ORM\ManyToOne(targetEntity=Lieu::class, inversedBy="sorties", cascade={"persist"})
      * @ORM\JoinColumn(nullable=false)
      */
     private $lieu;
@@ -89,7 +89,6 @@ class Sortie
     {
         $this->participants = new ArrayCollection();
     }
-
 
     public function getId(): ?int
     {
