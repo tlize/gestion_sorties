@@ -3,10 +3,13 @@
 {% block title %}Participant{% endblock %}
 
 {% block body %}
-    <h1>Participant</h1>
+    <h1>{{ participant.pseudo }}</h1>
+
+    <img src="{{ asset('uploads/avatars{{ participant.avatar }}') }}">
 
     <table class="table">
         <tbody>
+
             <tr>
                 <th>Id</th>
                 <td>{{ participant.id }}</td>

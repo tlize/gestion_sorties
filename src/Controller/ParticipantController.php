@@ -3,9 +3,12 @@
 namespace App\Controller;
 
 use App\Entity\Participant;
+use App\Entity\Utilisateur;
 use App\Form\ParticipantType;
 use App\Repository\ParticipantRepository;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\HttpFoundation\File\Exception\FileException;
+use Symfony\Component\HttpFoundation\File\UploadedFile;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
@@ -67,6 +70,29 @@ class ParticipantController extends AbstractController
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
+
+            /**
+             * @var UploadedFile $avatarFile
+             */
+            $avatarFile = $form ->get('avatar') ->getData();
+
+            if ($avatarFile){
+                $originalAvatar = pathinfo($avatarFile -> getClientOriginalName(), PATHINFO_FILENAME);
+                $avatarVerif = transliterator_transliterate('Any-Latin; Latin-ASCII; [^A-Za-z0-9_] remove; Lower()', $originalAvatar);
+                $nveauNom = $avatarVerif . '-' . uniqid() . $avatarFile -> guessExtension();
+
+                try {
+                    $avatarFile -> move(
+                        $this -> getParameter('dossierAvatars'), $nveauNom
+                    );
+                } catch (FileException $e) {
+
+                }
+
+                $this ->getUser() -> setAvatar($nveauNom);
+
+            }
+
             $this->getDoctrine()->getManager()->flush();
 
             return $this->redirectToRoute('participant_index');

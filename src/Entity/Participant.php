@@ -83,13 +83,35 @@ class Participant implements UserInterface
      */
     private $sortie_participee;
 
+    /**
+     * @ORM\Column(type="string")
+     */
+    private $avatar;
+
     //Pas sauvegardé en base
     private $roles;
+
 
     public function __construct()
     {
         $this->sortie_organisee = new ArrayCollection();
         $this->sortie_participee = new ArrayCollection();
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getAvatar()
+    {
+        return $this->avatar;
+    }
+
+    /**
+     * @param mixed $avatar
+     */
+    public function setAvatar($avatar): void
+    {
+        $this->avatar = $avatar;
     }
 
     public function getId(): ?int
@@ -224,7 +246,6 @@ class Participant implements UserInterface
                 $sortieOrganisee->setOrganisateur(null);
             }
         }
-
         return $this;
     }
 
@@ -272,7 +293,7 @@ class Participant implements UserInterface
         return $this;
     }
 
-    /*
+    /**
      * @return mixed
      */
     public function getMotDePasse()

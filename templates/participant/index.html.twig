@@ -1,19 +1,20 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Participant index{% endblock %}
+{% block title %}Participants{% endblock %}
 
 {% block body %}
-    <h1>Participant index</h1>
+    <h1>Liste des Participants</h1>
 
     <table class="table">
         <thead>
             <tr>
                 <th>Id</th>
+                <th>Pseudo</th>
                 <th>Nom</th>
-                <th>Prenom</th>
+                <th>Prénom</th>
                 <th>Telephone</th>
-                <th>Mail</th>
-                <th>Mot_de_passe</th>
+                <th>E-mail</th>
+                <th>Mot De Passe</th>
                 <th>Administrateur</th>
                 <th>Actif</th>
                 <th>actions</th>
@@ -23,6 +24,7 @@
         {% for participant in participants %}
             <tr>
                 <td>{{ participant.id }}</td>
+                <td>{{ participant.pseudo }}</td>
                 <td>{{ participant.nom }}</td>
                 <td>{{ participant.prenom }}</td>
                 <td>{{ participant.telephone }}</td>
