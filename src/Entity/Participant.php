@@ -83,27 +83,14 @@ class Participant implements UserInterface
      */
     private $sortie_participee;
 
+    //Pas sauvegardé en base
+    private $roles;
+
     public function __construct()
     {
         $this->sortie_organisee = new ArrayCollection();
         $this->sortie_participee = new ArrayCollection();
     }
-
-
-
-
-    //Pas sauvegardé en base
-    private $roles;
-
-
-
-
-
-
-
-
-
-
 
     public function getId(): ?int
     {
@@ -150,8 +137,6 @@ class Participant implements UserInterface
         $this->pseudo = $pseudo;
     }
 
-
-
     public function getTelephone(): ?string
     {
         return $this->telephone;
@@ -175,8 +160,6 @@ class Participant implements UserInterface
 
         return $this;
     }
-
-
 
     public function getAdministrateur(): ?bool
     {
@@ -289,7 +272,7 @@ class Participant implements UserInterface
         return $this;
     }
 
-    /**
+    /*
      * @return mixed
      */
     public function getMotDePasse()
@@ -333,8 +316,6 @@ class Participant implements UserInterface
         $this->roles = $roles;
     }
 
-
-
     public function getSalt()
     {
         // TODO: Implement getSalt() method.
@@ -344,7 +325,5 @@ class Participant implements UserInterface
     {
         // TODO: Implement eraseCredentials() method.
     }
-
-
 }
 
