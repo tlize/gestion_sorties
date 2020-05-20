@@ -14,7 +14,7 @@
             <div class=" justify-content-end collapse navbar-collapse" id="navbarSupportedContent">
                 <ul class="navbar-nav mr-0">
                     <li class="nav-item"><a href="{{ path('ville_index') }}" class="nav-link">Villes</a></li>
-                    <li class="nav-item"><a href="#" class="nav-link">Campus</a></li>
+                    <li class="nav-item"><a href="{{ path('campus_index') }}" class="nav-link">Campus</a></li>
                     <li class="nav-item"><a href="{{path('default_accueil')}}" class="nav-link">Accueil</a></li>
                 {% if is_granted('IS_AUTHENTICATED_REMEMBERED') %}
                     <li class="nav-item"><a href="#" class="nav-link">Mon Profil</a></li>
