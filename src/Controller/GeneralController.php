@@ -16,10 +16,6 @@ class GeneralController extends AbstractController
      */
     public function accueil(SortieRepository $sortieRepository,Request $request): Response
     {
-        $search = new PropertySearch();
-        $form = $this->createForm(PropertySearch::class, $search);
-        $form->handleRequest($request);
-
 
 
         return $this->render("default/accueil.html.twig", [
