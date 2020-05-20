@@ -5,7 +5,9 @@
 {% block body %}
     <h1>{{ participant.pseudo }}</h1>
 
-    <img src="{{ asset('uploads/avatars{{ participant.avatar }}') }}">
+    {% if participant.avatar %}
+        <img src="{{ asset("uploads/avatars/"~participant.avatar) }}" alt="votre avatar" width="200px">
+    {% endif %}
 
     <table class="table">
         <tbody>

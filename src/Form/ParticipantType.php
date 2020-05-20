@@ -11,7 +11,7 @@ use Symfony\Component\Form\Extension\Core\Type\FileType;
 use Symfony\Component\Form\Extension\Core\Type\RepeatedType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
-use Symfony\Component\Validator\Constraints\File;
+use Symfony\Component\Validator\Constraints\Image;
 
 class ParticipantType extends AbstractType
 {
@@ -39,14 +39,14 @@ class ParticipantType extends AbstractType
                 'mapped' => false,
                 'required' => false,
                 'constraints' => [
-                    new File([
+                    new Image([
                         'maxSize' => '1024k'
                         ,
                         'mimeTypes' => [
-                            'application/jpg',
-                            'application/jpeg',
-                            'application/png',
-                            'application/gif'
+                            'image/jpg',
+                            'image/jpeg',
+                            'image/png',
+                            'image/gif'
                         ],
                         'mimeTypesMessage' => 'Format de fichier non reconnu'
                     ])
