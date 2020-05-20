@@ -13,7 +13,7 @@
             </div>
             <div class=" justify-content-end collapse navbar-collapse" id="navbarSupportedContent">
                 <ul class="navbar-nav mr-0">
-                    <li class="nav-item"><a href="#" class="nav-link">Villes</a></li>
+                    <li class="nav-item"><a href="{{ path('ville_index') }}" class="nav-link">Villes</a></li>
                     <li class="nav-item"><a href="#" class="nav-link">Campus</a></li>
                     <li class="nav-item"><a href="{{path('default_accueil')}}" class="nav-link">Accueil</a></li>
                 {% if is_granted('IS_AUTHENTICATED_REMEMBERED') %}
@@ -26,16 +26,8 @@
                 </ul>
             </div>
     </nav>
-    <div class="d-flex flex-row justify-content-between">
-        <div>
-            <p>bloc1</p>
-        </div>
-        <div>
-            <p>bloc2</p>
-        </div>
-    </div>
     {% block body %}{% endblock %}
-    <footer>&copy; Max/Corentin/tristan/Max {{ "now" | date("Y") }}</footer>
+    <footer>&copy; Max/Corentin/Tristan/Max {{ "now" | date("Y") }}</footer>
 
     {% block javascripts %}{% endblock %}
     <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js" integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj" crossorigin="anonymous"></script>
