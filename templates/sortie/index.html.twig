@@ -3,34 +3,43 @@
 {% block title %}Sortie index{% endblock %}
 
 {% block body %}
-    <h1>Sortie index</h1>
 
-    <table class="table">
+
+    <h1>Sortie index</h1>
+    <div class="container">
+        <table class="table table-striped">
         <thead>
-            <tr>
-                <th>Id</th>
-                <th>Nom</th>
-                <th>Date_heure_debut</th>
-                <th>Duree</th>
-                <th>Date_limite_inscription</th>
-                <th>Nb_inscriptions_max</th>
-                <th>Description</th>
-                <th>actions</th>
-            </tr>
+        <tr>
+
+            <th>Nom de la sortie</th>
+            <th>Date de la sortie</th>
+            <th>Clôture</th>
+            <th>inscrits/places</th>
+            <th>Etat</th>
+            <th>Inscrit</th>
+            <th>Organisateur</th>
+            <th>actions</th>
+        </tr>
         </thead>
+
+
         <tbody>
         {% for sortie in sorties %}
             <tr>
-                <td>{{ sortie.id }}</td>
-                <td>{{ sortie.nom }}</td>
-                <td>{{ sortie.dateHeureDebut ? sortie.dateHeureDebut|date('Y-m-d H:i:s') : '' }}</td>
-                <td>{{ sortie.duree }}</td>
-                <td>{{ sortie.dateLimiteInscription ? sortie.dateLimiteInscription|date('Y-m-d H:i:s') : '' }}</td>
-                <td>{{ sortie.nbInscriptionsMax }}</td>
-                <td>{{ sortie.description }}</td>
-                <td>
-                    <a href="{{ path('sortie_show', {'id': sortie.id}) }}">show</a>
-                    <a href="{{ path('sortie_edit', {'id': sortie.id}) }}">edit</a>
+
+                <td colspan="1">{{ sortie.nom }}</td>
+                <td colspan="1">{{ sortie.dateHeureDebut ? sortie.dateHeureDebut|date('Y-m-d H:i:s') : '' }}</td>
+                <td colspan="1">{{ sortie.dateLimiteInscription ? sortie.dateLimiteInscription|date('Y-m-d ') }}</td>
+                <td colspan="1"> ? / {{ sortie.nbInscriptionsMax }}</td>
+                <td colspan="1"> {{ sortie.etat.libelle }}</td>
+                <td colspan="1"></td>
+                <td colspan="1"> {{ sortie.organisateur.prenom }}.{{ sortie.organisateur.nom }}</td>
+                <td colspan="1">
+                    <a href="{{ path('sortie_show', {'id': sortie.id}) }}">Afficher</a>
+                    <a href="{{ path('sortie_edit', {'id': sortie.id}) }}">Modifier</a>
+                    <a href="{{ path('sortie_show', {'id': sortie.id}) }}">Publier</a>
+                    <a href="{{ path('sortie_show', {'id': sortie.id}) }}">Se désister</a>
+
                 </td>
             </tr>
         {% else %}
@@ -40,6 +49,8 @@
         {% endfor %}
         </tbody>
     </table>
-
-    <a href="{{ path('sortie_new') }}">Create new</a>
+    </div>
+    <div class="btn">
+    <button class="primary" ><a href="{{ path('sortie_new') }}">Créer une sortie</a> </button>
+    </div>
 {% endblock %}
