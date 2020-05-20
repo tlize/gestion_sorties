@@ -6,7 +6,8 @@
 
 
     <h1>Sortie index</h1>
-    <div class="container">
+    <div class="container" >
+
         <table class="table table-striped">
         <thead>
         <tr>
@@ -32,7 +33,7 @@
                 <td colspan="1">{{ sortie.dateLimiteInscription ? sortie.dateLimiteInscription|date('Y-m-d ') }}</td>
                 <td colspan="1"> ? / {{ sortie.nbInscriptionsMax }}</td>
                 <td colspan="1"> {{ sortie.etat.libelle }}</td>
-                <td colspan="1"></td>
+                <td colspan="1"> </td>
                 <td colspan="1"> {{ sortie.organisateur.prenom }}.{{ sortie.organisateur.nom }}</td>
                 <td colspan="1">
                     <a href="{{ path('sortie_show', {'id': sortie.id}) }}">Afficher</a>
