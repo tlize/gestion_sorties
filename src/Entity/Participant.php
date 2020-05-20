@@ -6,11 +6,15 @@ use App\Repository\ParticipantRepository;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
+use Symfony\Component\Security\Core\User\UserInterface;
+use Symfony\Component\Validator\Constraints as Assert;
 
 /**
  * @ORM\Entity(repositoryClass=ParticipantRepository::class)
+ * @UniqueEntity(fields={"mail"})
  */
-class Participant
+class Participant implements UserInterface
 {
     /**
      * @ORM\Id()
@@ -21,6 +25,8 @@ class Participant
 
     /**
      * @ORM\Column(type="string", length=50)
+     * @Assert\Length(max="50")
+     * @Assert\NotBlank()
      */
     private $nom;
 
@@ -41,6 +47,8 @@ class Participant
 
     /**
      * @ORM\Column(type="string", length=255)
+     * @Assert\Length(max="50")
+     * @Assert\NotBlank()
      */
     private $mot_de_passe;
 
@@ -75,6 +83,21 @@ class Participant
         $this->sortie_organisee = new ArrayCollection();
         $this->sortie_participee = new ArrayCollection();
     }
+
+
+
+
+    //Pas sauvegardé en base
+    private $roles;
+
+
+
+
+
+
+
+
+
 
 
     public function getId(): ?int
@@ -130,17 +153,7 @@ class Participant
         return $this;
     }
 
-    public function getMotDePasse(): ?string
-    {
-        return $this->mot_de_passe;
-    }
 
-    public function setMotDePasse(string $mot_de_passe): self
-    {
-        $this->mot_de_passe = $mot_de_passe;
-
-        return $this;
-    }
 
     public function getAdministrateur(): ?bool
     {
@@ -234,4 +247,63 @@ class Participant
 
         return $this;
     }
+
+    /**
+     * @return mixed
+     */
+    public function getUsername()
+    {
+        return $this->mail;
+    }
+
+    /**
+     * @param mixed $username
+     */
+    public function setUsername($mail): void
+    {
+        $this->mail = $mail;
+    }
+
+    public function getPassword(): ?string
+    {
+        return $this->mot_de_passe;
+    }
+
+    public function setPassword(string $mot_de_passe): self
+    {
+        $this->mot_de_passe = $mot_de_passe;
+
+        return $this;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getRoles()
+    {
+        return ["ROLE_USER"];
+    }
+
+    /**
+     * @param mixed $roles
+     */
+    public function setRoles($roles): void
+    {
+        $this->roles = $roles;
+    }
+
+
+
+    public function getSalt()
+    {
+        // TODO: Implement getSalt() method.
+    }
+
+    public function eraseCredentials()
+    {
+        // TODO: Implement eraseCredentials() method.
+    }
+
+
 }
+
