@@ -33,10 +33,15 @@
                     <td colspan="1">{{ sortie.nom }}</td>
                     <td colspan="1">{{ sortie.dateHeureDebut ? sortie.dateHeureDebut|date('Y-m-d H:i') : '' }}</td>
                     <td colspan="1">{{ sortie.dateLimiteInscription ? sortie.dateLimiteInscription|date('Y-m-d ') }}</td>
-                    <td colspan="1"> ? / {{ sortie.nbInscriptionsMax }}</td>
-                    <td colspan="1"> {{ sortie.etat.libelle }}</td>
-                    <td colspan="1">
 
+                    <td colspan="1">  {{ sortie.participants | length }}/ {{ sortie.nbInscriptionsMax }}</td>
+                    <td colspan="1"> {{ sortie.etat.libelle }}</td>
+                    <td colspan="1"> {% for participant in sortie.participants  %}
+                                        {%  if participant.id == app.user.id  %}
+                                        X
+                                        {% endif    %}
+                                    {% endfor %}
+                    </td>
                     <td colspan="1"> {{ sortie.organisateur.prenom }}.{{ sortie.organisateur.nom }}</td>
                     <td colspan="1">
                         <a href="{{ path('sortie_show', {'id': sortie.id}) }}">Afficher</a>

@@ -21,17 +21,19 @@ class SortieRepository extends ServiceEntityRepository
 
     public function findPageAcceuil() {
 
-        $qb = $this->createQueryBuilder('s');
-//            ->addSelect('par')
-//            ->addSelect('org')
-//            ->addSelect('etat')
-//            ->addSelect('cam')
-//            ->addSelect('lieu')
-//            ->join('s.participants', 'par')
-//            ->join('s.organisateur', 'org')
-//            ->join('s.campus', 'cam')
-//            ->join('s.etat', 'etat')
-//            ->join('s.lieu','lieu');
+        $qb = $this->createQueryBuilder('s')
+
+            ->join('s.participants', 'par')
+            ->join('s.organisateur', 'org')
+            ->join('s.campus', 'cam')
+            ->join('s.etat', 'etat')
+            ->join('s.lieu','lieu')
+            ->addSelect('par')
+            ->addSelect('org')
+            ->addSelect('etat')
+            ->addSelect('cam')
+            ->addSelect('lieu');
+
           $query = $qb  ->getQuery();
             return $query->getResult()
             ;
