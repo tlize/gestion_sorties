@@ -7,8 +7,9 @@
 
     {{ form_start(form) }}
     {{ form_widget(form) }}
-    <button class="btn">{{ button_label|default('Enregistrer') }}</button>
+    <button class="btn btn-primary">{{ button_label|default('Enregistrer') }}</button>
+    <button class="btn btn-primary">Publier la sortie</button>
     {{ form_end(form) }}
 
-    <a href="{{ path('sortie_index') }}">back to list</a>
+    <a class="btn btn-secondary" href="{{ path('sortie_index') }}">Annuler</a>
 {% endblock %}
