@@ -36,6 +36,11 @@ class Participant implements UserInterface
     private $prenom;
 
     /**
+     * @ORM\Column(type="string", length=50, unique=true)
+     */
+    private $pseudo;
+
+    /**
      * @ORM\Column(type="string", length=20, nullable=true)
      */
     private $telephone;
@@ -128,6 +133,24 @@ class Participant implements UserInterface
 
         return $this;
     }
+
+    /**
+     * @return mixed
+     */
+    public function getPseudo()
+    {
+        return $this->pseudo;
+    }
+
+    /**
+     * @param mixed $pseudo
+     */
+    public function setPseudo($pseudo): void
+    {
+        $this->pseudo = $pseudo;
+    }
+
+
 
     public function getTelephone(): ?string
     {
@@ -253,15 +276,17 @@ class Participant implements UserInterface
      */
     public function getUsername()
     {
-        return $this->getMail();
+        return $this->getPseudo();
     }
 
     /**
      * @param mixed $username
      */
-    public function setUsername($mail): void
+    public function setUsername(string $pseudo): self
     {
-        $this->mail = $mail;
+        $this->pseudo = $pseudo;
+
+        return $this;
     }
 
     /**
@@ -279,9 +304,6 @@ class Participant implements UserInterface
     {
         $this->mot_de_passe = $mot_de_passe;
     }
-
-
-
 
     public function getPassword(): ?string
     {
