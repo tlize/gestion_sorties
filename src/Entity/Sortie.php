@@ -175,7 +175,6 @@ class Sortie
     public function setOrganisateur(?Participant $organisateur): self
     {
         $this->organisateur = $organisateur;
-
         return $this;
     }
 
