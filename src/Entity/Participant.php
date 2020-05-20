@@ -253,7 +253,7 @@ class Participant implements UserInterface
      */
     public function getUsername()
     {
-        return $this->mail;
+        return $this->getMail();
     }
 
     /**
@@ -264,9 +264,28 @@ class Participant implements UserInterface
         $this->mail = $mail;
     }
 
-    public function getPassword(): ?string
+    /**
+     * @return mixed
+     */
+    public function getMotDePasse()
     {
         return $this->mot_de_passe;
+    }
+
+    /**
+     * @param mixed $mot_de_passe
+     */
+    public function setMotDePasse($mot_de_passe): void
+    {
+        $this->mot_de_passe = $mot_de_passe;
+    }
+
+
+
+
+    public function getPassword(): ?string
+    {
+        return $this->getMotDePasse();
     }
 
     public function setPassword(string $mot_de_passe): self
