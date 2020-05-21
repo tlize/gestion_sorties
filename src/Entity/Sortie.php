@@ -7,6 +7,8 @@ use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Validator\Constraints as Assert;
+use Symfony\Component\Validator\Context\ExecutionContextInterface;
+
 
 /**
  * @ORM\Entity(repositoryClass=SortieRepository::class)
@@ -21,14 +23,31 @@ class Sortie
     private $id;
 
     /**
+     * @Assert\NotBlank(message="Nom de la sortie manquant")
+     * @Assert\Length(max="100",maxMessage="Ce nom est trop long (100 charactères maximum)")
      * @ORM\Column(type="string", length=100)
      */
     private $nom;
 
     /**
      * @ORM\Column(type="datetime")
+     * @Assert\GreaterThan("now", message="La date de la sortie ne peut pas être dans le passé")
      */
     private $date_heure_debut;
+/*
+
+     * @Assert\Callback
+     * @param ExecutionContextInterface $context
+
+    public function validate(ExecutionContextInterface $context)
+    {
+        $validator = $context->getValidator()->inContext($context);
+
+        $validator->atPath('date_heure_debut')->validate($this->date_heure_debut, new Range(array(
+            'min' => $this->min,
+            'max' => $this->max,
+        )));
+    }*/
 
     /**
      * @ORM\Column(type="integer", nullable=true)
@@ -37,6 +56,8 @@ class Sortie
 
     /**
      * @ORM\Column(type="datetime")
+     * @Assert\LessThan(propertyPath="date_heure_debut", message="La date de fin des inscriptions ne peut pas être
+     * avant la date de début de la sortie")
      */
     private $date_limite_inscription;
 
@@ -88,6 +109,7 @@ class Sortie
     public function __construct()
     {
         $this->participants = new ArrayCollection();
+        $this->date_limite_inscription = $this->date_heure_debut = new \DateTime();
     }
 
     public function getId(): ?int
