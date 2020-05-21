@@ -5,6 +5,9 @@
 {% block body %}
     <h1>Mon Profil</h1>
 
+    {% if participant.avatar %}
+        <img src="{{ asset("uploads/avatars/"~participant.avatar) }}" alt="votre avatar" width="200px">
+    {% endif %}
     {{ form_start(form) }}
     {{ form_widget(form) }}
     {{ form_row(form.avatar) }}

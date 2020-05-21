@@ -7,6 +7,8 @@
 
     {% if participant.avatar %}
         <img src="{{ asset("uploads/avatars/"~participant.avatar) }}" alt="votre avatar" width="200px">
+    {% else %}
+        <img src="{{ asset('img/maxL.JPG') }}" alt="tête de nerd" width="200px">
     {% endif %}
 
     <table class="table">
