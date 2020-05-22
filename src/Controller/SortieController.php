@@ -118,6 +118,7 @@ class SortieController extends AbstractController
         return $this->redirectToRoute('default_accueil');
     }
 
+
     /**
      * @Route("/{id}/unregister", name="sortie_unregistration", requirements={"id": "\d+"})
      */
