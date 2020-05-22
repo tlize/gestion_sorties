@@ -108,17 +108,26 @@ class SortieController extends AbstractController
 
        $sortie = $this->getDoctrine()->getManager()->getRepository(Sortie::class)->find($id);
 
-       $userco->addSortieParticipee($sortie);
-
-
-
+       $sortie->addParticipant($userco);
 
 
         //Enregistrement des données (update)
 
         $em->flush();
 
-        return $this->redirectToRoute('sortie_index');
+        return $this->redirectToRoute('default_accueil');
+    }
+
+    /**
+     * @Route("/{id}/unregister", name="sortie_unregistration", requirements={"id": "\d+"})
+     */
+    public function unregistration($id, EntityManagerInterface $em)
+    {
+        $userco = $this->getUser();
+        $sortie = $this->getDoctrine()->getManager()->getRepository(Sortie::class)->find($id);
+        $sortie->removeParticipant($userco);
+        $em->flush();
+        return $this->redirectToRoute('default_accueil');
     }
 
 }
