@@ -5,6 +5,7 @@ namespace App\Controller;
 use App\Entity\Sortie;
 use App\Form\SortieType;
 use App\Repository\SortieRepository;
+use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -97,4 +98,27 @@ class SortieController extends AbstractController
 
         return $this->redirectToRoute('sortie_index');
     }
+
+    /**
+     * @Route("/{id}/register", name="sortie_registration", requirements={"id": "\d+"})
+     */
+    public function registration( $id, EntityManagerInterface $em)
+    {
+        $userco = $this->getUser();
+
+       $sortie = $this->getDoctrine()->getManager()->getRepository(Sortie::class)->find($id);
+
+       $userco->addSortieParticipee($sortie);
+
+
+
+
+
+        //Enregistrement des données (update)
+
+        $em->flush();
+
+        return $this->redirectToRoute('sortie_index');
+    }
+
 }
