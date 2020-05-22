@@ -48,6 +48,11 @@ class SortieRepository extends ServiceEntityRepository
                 ->andWhere('cam.id IN (:campus)')
                 ->setParameter('campus', $search->campus);
         }
+        if(!empty($search->inscrit)){
+            $query = $query
+                ->andWhere()
+                ;
+        }
             return $query->getQuery()->getResult()
             ;
 

@@ -7,6 +7,7 @@ use App\Entity\Campus;
 
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Form\AbstractType;
+use Symfony\Component\Form\Extension\Core\Type\CheckboxType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
@@ -30,7 +31,22 @@ public function buildForm(FormBuilderInterface $builder, array $options)
                 'choice_label'=>'nom'
         ])
 
-
+        ->add('organisateur', CheckboxType::class,[
+            'label'=>'Sorties dont je suis l\'organisateur/trice',
+            'required'=>false
+        ])
+        ->add('inscrit', CheckboxType::class,[
+            'label'=>'Sorties auxquelles je suis inscrit/e',
+            'required'=>false
+        ])
+        ->add('pasInscrit', CheckboxType::class,[
+            'label'=>'Sorties auxquelles je ne suis pas inscrit/e',
+            'required'=>false
+        ])
+        ->add('passees', CheckboxType::class,[
+            'label'=>'Sorties passées',
+            'required'=>false
+        ])
         ;
 }
 

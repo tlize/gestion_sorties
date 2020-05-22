@@ -28,5 +28,24 @@ class SearchData
      */
      public $dateMax;
 
+    /**
+     * @var boolean
+     */
+    public $organisateur;
+
+    /**
+     * @var boolean
+     */
+    public $inscrit;
+
+    /**
+     * @var boolean
+     */
+    public $pasInscrit;
+
+    /**
+     * @var boolean
+     */
+    public $passees;
 
 }
