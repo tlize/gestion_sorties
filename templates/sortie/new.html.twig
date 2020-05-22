@@ -7,8 +7,8 @@
 
     {{ form_start(form) }}
     {{ form_widget(form) }}
-    <button class="btn btn-primary">{{ button_label|default('Enregistrer') }}</button>
-    <button class="btn btn-primary">Publier la sortie</button>
+    <input type="submit" class="btn btn-primary" name="submit" value="Enregistrer"></input>
+    <input type="submit" class="btn btn-primary" name="submit" value="Publier"></input>
     {{ form_end(form) }}
 
     <a class="btn btn-secondary" href="{{ path('sortie_index') }}">Annuler</a>

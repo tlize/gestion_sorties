@@ -39,10 +39,17 @@ class SortieController extends AbstractController
         $organisateur = $this->getUser();
         $organisateur->addSortieOrganisee($sortie);
 
-        $etat = $this->getDoctrine()->getManager()->getRepository('App:Etat')->find(1);
-        $sortie->setEtat($etat);
-
         if ($form->isSubmitted() && $form->isValid()) {
+            if($request->get('submit') == 'enregistrer'){
+                // Passe l'état à créée - enregistrement
+                $etat = $this->getDoctrine()->getManager()->getRepository('App:Etat')->find(1);
+                $sortie->setEtat($etat);
+            }
+            elseif ($request->get('submit') == 'publier'){
+                //Passe l'état à ouvert - publication
+                $etat = $this->getDoctrine()->getManager()->getRepository('App:Etat')->find(2);
+                $sortie->setEtat($etat);
+            }
             $entityManager = $this->getDoctrine()->getManager();
             $entityManager->persist($sortie);
             $entityManager->flush();
@@ -147,7 +154,6 @@ class SortieController extends AbstractController
         return $this->redirectToRoute('default_accueil');
     }
 
-
     /**
      * @Route("/{id}/unregister", name="sortie_unregistration", requirements={"id": "\d+"})
      */
@@ -158,6 +164,21 @@ class SortieController extends AbstractController
         $sortie->removeParticipant($userco);
         $em->flush();
         return $this->redirectToRoute('default_accueil');
+    }
+
+    /**
+     * @Route("/{id}/cancel", name="sortie_cancel", requirements={"id": "\d+"})
+     */
+    public function cancel($id, EntityManagerInterface $em, Request $request)
+    {
+        $userco = $this->getUser();
+        $sortie = $this->getDoctrine()->getManager()->getRepository(Sortie::class)->find($id);
+        if ($userco == $sortie->getOrganisateur()){
+            $sortie->setDescription($request->get('motif'));
+            $sortie->setEtat(6);
+            $em->flush();
+        }
+        return $this->render('sortie/cancel.html.twig', ['sortie' => $sortie]);
     }
 
 }

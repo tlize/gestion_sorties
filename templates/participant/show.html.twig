@@ -11,20 +11,16 @@
         <img src="{{ asset('img/maxL.JPG') }}" alt="tête de nerd" width="200px">
     {% endif %}
 
-    <table class="table">
+    <table class="table table-striped">
         <tbody>
 
             <tr>
-                <th>Id</th>
-                <td>{{ participant.id }}</td>
+                <th>Prenom</th>
+                <td>{{ participant.prenom }}</td>
             </tr>
             <tr>
                 <th>Nom</th>
                 <td>{{ participant.nom }}</td>
-            </tr>
-            <tr>
-                <th>Prenom</th>
-                <td>{{ participant.prenom }}</td>
             </tr>
             <tr>
                 <th>Telephone</th>
@@ -35,27 +31,11 @@
                 <td>{{ participant.mail }}</td>
             </tr>
             <tr>
-                <th>Mot_de_passe</th>
-                <td>{{ participant.motDePasse }}</td>
-            </tr>
-            <tr>
                 <th>Campus</th>
                 <td>{{ participant.campus.nom }}</td>
-            </tr>
-            <tr>
-                <th>Administrateur</th>
-                <td>{{ participant.administrateur ? 'Yes' : 'No' }}</td>
-            </tr>
-            <tr>
-                <th>Actif</th>
-                <td>{{ participant.actif ? 'Yes' : 'No' }}</td>
             </tr>
         </tbody>
     </table>
 
-    <a href="{{ path('participant_index') }}">back to list</a>
-
-    <a href="{{ path('participant_edit', {'id': participant.id}) }}">edit</a>
-
-    {{ include('participant/_delete_form.html.twig') }}
+    <a class="btn btn-secondary" href="{{ path('default_accueil') }}">Retour</a>
 {% endblock %}
