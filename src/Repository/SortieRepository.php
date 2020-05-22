@@ -30,9 +30,11 @@ class SortieRepository extends ServiceEntityRepository
 
             ->join('s.campus', 'cam')
             ->leftjoin('s.participants','participant')
+            ->join('s.organisateur','organisateur')
             ->join('s.etat', 'etat')
             ->join('s.lieu','lieu')
             ->addSelect('participant')
+            ->addSelect('organisateur')
             ->addSelect('etat')
             ->addSelect('cam')
             ->addSelect('lieu')

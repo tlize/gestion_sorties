@@ -6,17 +6,21 @@
 {% block body %}
 
 
-
-<div class="date">
-  Date du jour: {{ "now"|date('d/m/y') }}
-</div>
+<div class="container">
+    <div class="c ">
+    <div class="date">
+    Date du jour: {{ "now"|date('d/m/y') }}
+    </div>
     <div>
      Participant :{{ app.user.pseudo }}
     </div>
+    </div>
+</div>
     <h4>Filtrer les sorties</h4>
     <div>
         <div class="col-md-4">
        {{ form_start(formTri) }}
+
        {{ form_widget(formTri)}}
             <button type="submit" class="btn-primary" >Rechercher </button>
        {{ form_end(formTri) }}
@@ -35,8 +39,11 @@
             {{ message }}
         </div>
     {% endfor %}
-    <div class="container">
-        <table class="table table-striped">
+
+
+
+    <div class="container overflow-auto " style=" height: 300px">
+        <table class="table table-striped ">
             <thead>
             <tr>
                 <th>Nom de la sortie</th>
@@ -80,6 +87,7 @@
             </tbody>
         </table>
     </div>
+
     <div>
         <a  class="btn btn-primary" href="{{ path('sortie_new') }}">Créer une sortie</a>
     </div>
