@@ -6,12 +6,12 @@
 {% block body %}
 
 
-    <h1>Sortie index</h1>
+
 <div class="date">
   Date du jour: {{ "now"|date('d/m/y') }}
 </div>
     <div>
-     Participant :
+     Participant :{{ app.user.pseudo }}
     </div>
     <h4>Filtrer les sorties</h4>
     <div>
@@ -63,7 +63,7 @@
                                         {% endif    %}
                                     {% endfor %}
                     </td>
-                    <td colspan="1"> {{ sortie.organisateur.nom }}</td>
+                    <td colspan="1"><a href="{{ path('participant_show',{'id': sortie.organisateur.id}) }}">  {{ sortie.organisateur.pseudo }} </td>
                     <td colspan="1">
                         <a href="{{ path('sortie_show', {'id': sortie.id}) }}">Afficher</a>
                         <a href="{{ path('sortie_edit', {'id': sortie.id}) }}">Modifier</a>
