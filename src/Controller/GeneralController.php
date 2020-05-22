@@ -2,7 +2,10 @@
 
 namespace App\Controller;
 
-use App\Entity\PropertySearch;
+use App\Data\SearchData;
+
+
+use App\Form\SearchType;
 use App\Repository\SortieRepository;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
@@ -16,13 +19,17 @@ class GeneralController extends AbstractController
      */
     public function accueil(SortieRepository $sortieRepository,Request $request): Response
     {
+        $data = new SearchData();
+        $formTri = $this->createForm(SearchType::class, $data);
+        $formTri->handleRequest($request);
 
+        $generals = $sortieRepository->findPageAcceuil($data);
 
         return $this->render("default/accueil.html.twig", [
-            'sorties' => $sortieRepository->findPageAcceuil(),
+            'sorties' => $generals,
+            'formTri'=>$formTri->createView()
         ]);
     }
-
 
 
 

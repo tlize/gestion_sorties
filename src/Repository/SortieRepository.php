@@ -2,6 +2,7 @@
 
 namespace App\Repository;
 
+use App\Data\SearchData;
 use App\Entity\Sortie;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Persistence\ManagerRegistry;
@@ -19,9 +20,11 @@ class SortieRepository extends ServiceEntityRepository
         parent::__construct($registry, Sortie::class);
     }
 
-    public function findPageAcceuil() {
+    public function findPageAcceuil(SearchData $search):array
+    {
 
-        $qb = $this->createQueryBuilder('s')
+        $query = $this
+            ->createQueryBuilder('s')
 
             ->join('s.participants', 'par')
             ->join('s.organisateur', 'org')
@@ -34,11 +37,23 @@ class SortieRepository extends ServiceEntityRepository
             ->addSelect('cam')
             ->addSelect('lieu');
 
-          $query = $qb  ->getQuery();
-            return $query->getResult()
+        if(!empty($search->q)){
+
+            $query = $query
+                ->andWhere('s.nom LIKE :q')
+                ->setParameter('q',"%{$search->q}%");
+        }
+        if(!empty($search->campus)){
+            $query = $query
+                ->andWhere('cam.id IN (:campus)')
+                ->setParameter('campus', $search->campus);
+        }
+            return $query->getQuery()->getResult()
             ;
 
     }
+
+
     // /**
     //  * @return Sortie[] Returns an array of Sortie objects
     //  */
@@ -67,4 +82,5 @@ class SortieRepository extends ServiceEntityRepository
         ;
     }
     */
+
 }

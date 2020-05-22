@@ -7,13 +7,27 @@
 
 
     <h1>Sortie index</h1>
-
+<div class="date">
+  Date du jour: {{ "now"|date('d/m/y') }}
+</div>
+    <div>
+     Participant :
+    </div>
     <h4>Filtrer les sorties</h4>
+    <div>
+        <div class="col-md-4">
+       {{ form_start(formTri) }}
+       {{ form_widget(formTri)}}
+            <button type="submit" class="btn-primary" >Rechercher </button>
+       {{ form_end(formTri) }}
+
+
+        </div>
+    </div>
     <div class="container">
         <table class="table table-striped">
             <thead>
             <tr>
-
                 <th>Nom de la sortie</th>
                 <th>Date de la sortie</th>
                 <th>Clôture</th>
@@ -24,21 +38,17 @@
                 <th>actions</th>
             </tr>
             </thead>
-
-
             <tbody>
             {% for sortie in sorties %}
                 <tr>
-
                     <td colspan="1">{{ sortie.nom }}</td>
                     <td colspan="1">{{ sortie.dateHeureDebut ? sortie.dateHeureDebut|date('Y-m-d H:i') : '' }}</td>
                     <td colspan="1">{{ sortie.dateLimiteInscription ? sortie.dateLimiteInscription|date('Y-m-d ') }}</td>
-
                     <td colspan="1">  {{ sortie.participants | length }}/ {{ sortie.nbInscriptionsMax }}</td>
                     <td colspan="1"> {{ sortie.etat.libelle }}</td>
                     <td colspan="1"> {% for participant in sortie.participants  %}
                                         {%  if participant.id == app.user.id  %}
-                                        X
+                                          X
                                         {% endif    %}
                                     {% endfor %}
                     </td>
@@ -48,12 +58,11 @@
                         <a href="{{ path('sortie_edit', {'id': sortie.id}) }}">Modifier</a>
                         <a href="{{ path('sortie_show', {'id': sortie.id}) }}">Publier</a>
                         <a href="{{ path('sortie_show', {'id': sortie.id}) }}">Se désister</a>
-
                     </td>
                 </tr>
             {% else %}
                 <tr>
-                    <td colspan="8">no records found</td>
+                    <td  colspan="8">Aucune sortie trouvée</td>
                 </tr>
             {% endfor %}
             </tbody>
