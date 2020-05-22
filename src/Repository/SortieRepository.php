@@ -7,6 +7,7 @@ use App\Entity\Sortie;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Persistence\ManagerRegistry;
 
+
 /**
  * @method Sortie|null find($id, $lockMode = null, $lockVersion = null)
  * @method Sortie|null findOneBy(array $criteria, array $orderBy = null)
@@ -20,22 +21,22 @@ class SortieRepository extends ServiceEntityRepository
         parent::__construct($registry, Sortie::class);
     }
 
-    public function findPageAcceuil(SearchData $search):array
+    public function findPageAcceuil(SearchData $search,  $userid):array
     {
 
         $query = $this
             ->createQueryBuilder('s')
 
-            ->leftjoin('s.participants', 'par')
-            ->join('s.organisateur', 'org')
+
             ->join('s.campus', 'cam')
+            ->leftjoin('s.participants','participant')
             ->join('s.etat', 'etat')
             ->join('s.lieu','lieu')
-            ->addSelect('par')
-            ->addSelect('org')
+            ->addSelect('participant')
             ->addSelect('etat')
             ->addSelect('cam')
-            ->addSelect('lieu');
+            ->addSelect('lieu')
+            ->andWhere("DATE_ADD(s.date_heure_debut, 1, 'month') > CURRENT_DATE()");
 
         if(!empty($search->q)){
 
@@ -48,11 +49,40 @@ class SortieRepository extends ServiceEntityRepository
                 ->andWhere('cam.id IN (:campus)')
                 ->setParameter('campus', $search->campus);
         }
-        if(!empty($search->inscrit)){
+        if (!empty($search->dateMin)){
             $query = $query
-                ->andWhere()
+                ->andWhere('s.date_heure_debut >=:dateMin')
+                ->setParameter('dateMin',$search->dateMin);
+        }
+        if (!empty($search->dateMax)){
+            $query = $query
+                ->andWhere('s.date_heure_debut <=:dateMax')
+                ->setParameter('dateMax',$search->dateMax);
+        }
+        if(!empty($search->organisateur)){
+            $query = $query
+                ->andWhere('s.organisateur = :userid')
+                ->setParameter('userid', $userid)
                 ;
         }
+        if(!empty($search->inscrit)) {
+            $query = $query
+                ->andWhere(':userid MEMBER OF s.participants' )
+                ->setParameter('userid', $userid);
+
+        }
+        if(!empty($search->pasInscrit)) {
+            $query = $query
+                ->andWhere(':userid NOT MEMBER OF s.participants' )
+                ->setParameter('userid', $userid);
+
+        }
+        if(!empty($search->passees)){
+            $query = $query
+                ->andWhere('s.etat = 5')
+            ;
+        }
+
             return $query->getQuery()->getResult()
             ;
 

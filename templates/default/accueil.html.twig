@@ -24,6 +24,17 @@
 
         </div>
     </div>
+    {% for message in app.flashes('success') %}
+        <div class="alert alert-success" role="alert">
+            {{ message }}
+        </div>
+    {% endfor %}
+
+    {% for message in app.flashes('warning') %}
+        <div class="alert alert-warning" role="alert">
+            {{ message }}
+        </div>
+    {% endfor %}
     <div class="container">
         <table class="table table-striped">
             <thead>
@@ -42,8 +53,8 @@
             {% for sortie in sorties %}
                 <tr>
                     <td colspan="1">{{ sortie.nom }}</td>
-                    <td colspan="1">{{ sortie.dateHeureDebut ? sortie.dateHeureDebut|date('Y-m-d H:i') : '' }}</td>
-                    <td colspan="1">{{ sortie.dateLimiteInscription ? sortie.dateLimiteInscription|date('Y-m-d ') }}</td>
+                    <td colspan="1">{{ sortie.dateHeureDebut ? sortie.dateHeureDebut|date('d-m-Y H:i') : '' }}</td>
+                    <td colspan="1">{{ sortie.dateLimiteInscription ? sortie.dateLimiteInscription|date('d-m-Y ') }}</td>
                     <td colspan="1">  {{ sortie.participants | length }}/ {{ sortie.nbInscriptionsMax }}</td>
                     <td colspan="1"> {{ sortie.etat.libelle }}</td>
                     <td colspan="1"> {% for participant in sortie.participants  %}
@@ -52,7 +63,7 @@
                                         {% endif    %}
                                     {% endfor %}
                     </td>
-                    <td colspan="1"> {{ sortie.organisateur.prenom }}.{{ sortie.organisateur.nom }}</td>
+                    <td colspan="1"> {{ sortie.organisateur.nom }}</td>
                     <td colspan="1">
                         <a href="{{ path('sortie_show', {'id': sortie.id}) }}">Afficher</a>
                         <a href="{{ path('sortie_edit', {'id': sortie.id}) }}">Modifier</a>
@@ -69,7 +80,7 @@
             </tbody>
         </table>
     </div>
-    <div class="btn">
-        <button class="primary" ><a href="{{ path('sortie_new') }}">Créer une sortie</a> </button>
+    <div>
+        <a  class="btn btn-primary" href="{{ path('sortie_new') }}">Créer une sortie</a>
     </div>
 {% endblock %}

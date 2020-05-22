@@ -5,9 +5,11 @@ namespace App\Form;
 use App\Data\SearchData;
 use App\Entity\Campus;
 
+
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\CheckboxType;
+use Symfony\Component\Form\Extension\Core\Type\DateTimeType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
@@ -30,7 +32,16 @@ public function buildForm(FormBuilderInterface $builder, array $options)
                 'class'=> Campus::class,
                 'choice_label'=>'nom'
         ])
+        ->add('dateMin', DateTimeType::class, [
+            'label'=>'Debut',
+            'required'=>false,
 
+        ])
+        ->add('dateMax',DateTimeType::class, [
+            'label'=>'et',
+            'required'=>false,
+
+        ])
         ->add('organisateur', CheckboxType::class,[
             'label'=>'Sorties dont je suis l\'organisateur/trice',
             'required'=>false
@@ -56,6 +67,7 @@ public function buildForm(FormBuilderInterface $builder, array $options)
             'data_class'=> SearchData::class,
             'method'=>'GET',
             'csrf_protection'=>'false'
+
         ]);
     }
 

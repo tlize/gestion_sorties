@@ -19,11 +19,13 @@ class GeneralController extends AbstractController
      */
     public function accueil(SortieRepository $sortieRepository,Request $request): Response
     {
+        $userco =$this->getUser();
+        $userid =$userco ->getId();
         $data = new SearchData();
         $formTri = $this->createForm(SearchType::class, $data);
         $formTri->handleRequest($request);
 
-        $generals = $sortieRepository->findPageAcceuil($data);
+        $generals = $sortieRepository->findPageAcceuil($data,$userid);
 
         return $this->render("default/accueil.html.twig", [
             'sorties' => $generals,

@@ -4,6 +4,8 @@ namespace App\Data;
 
 use App\Entity\Campus;
 
+use Symfony\Component\Form\Extension\Core\Type\DateTimeType;
+
 
 class SearchData
 {
@@ -19,12 +21,12 @@ class SearchData
      public $campus = [];
 
     /**
-     * @var \DateTime
+     * @var DateTimeType
      */
      public $dateMin;
 
     /**
-     * @var \DateTime
+     * @var DateTimeType
      */
      public $dateMax;
 
