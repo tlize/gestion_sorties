@@ -44,43 +44,27 @@
 
         {% for participant in sortie.participants %}
         <thead>
-        <tr>
-            <th>Pseudo</th>
-            <th>Nom</th>
-        </tr>
+            <tr>
+                <th>Pseudo</th>
+                <th>Nom</th>
+            </tr>
         </thead>
 
         <tbody>
-        <tr>
-            <td> {{ participant.pseudo }}</td>
-                <td>{{ participant.nom }}</td>
-            {% endfor %}
+            <tr>
+                <td><a href="{{ path('participant_show',{'id': participant.id}) }}"> {{ participant.pseudo }}</a></td>
+                    <td> {{ participant.prenom }} {{ participant.nom }}</td>
 
-        </tr>
+
+            </tr>
 
         </tbody>
+        {% endfor %}
     </table>
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
     <a href="{{ path('sortie_registration', {'id': sortie.id})  }}">s'inscrire</a>
-    <a href="{{ path('sortie_index') }}">back to list</a>
+    <a href="{{ path('default_accueil') }}">back to list</a>
 
     <a href="{{ path('sortie_edit', {'id': sortie.id}) }}">edit</a>
 

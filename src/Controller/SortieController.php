@@ -2,6 +2,7 @@
 
 namespace App\Controller;
 
+use App\Entity\Etat;
 use App\Entity\Sortie;
 use App\Form\SortieType;
 use App\Repository\SortieRepository;
@@ -106,9 +107,37 @@ class SortieController extends AbstractController
     {
         $userco = $this->getUser();
 
-       $sortie = $this->getDoctrine()->getManager()->getRepository(Sortie::class)->find($id);
+        $em = $this->getDoctrine()->getManager();
+        $sortieRepo = $em->getRepository(Sortie::class);
+        $sortie = $sortieRepo->find($id);
+        $etatSortie = $sortieRepo->findAll();
 
-       $sortie->addParticipant($userco);
+        $date =  new \DateTime();
+
+        //Conditions pour pouvoir s\inscrire a une sortie
+
+        // ID 2 = etat ouvert
+        if ($sortie->getEtat()->getId() !=2)
+        {
+            $this->addFlash('warning', 'L\'état de la sortie ne permet pas de vous inscrire');
+
+        }elseif ($sortie->getNbInscriptionsMax() == $sortie->getParticipants()->count())
+        {
+            $this->addFlash('warning', 'Le nombre maximum de participant à été atteint');
+
+        }elseif ($sortie->getParticipants()->contains($userco))
+        {
+               $this->addFlash('warning','Vous êtes déjà inscrit à la sortie');
+
+        } elseif ($sortie->getDateLimiteInscription() < $date)
+        {
+            $this->addFlash('warning', 'La période d\'inscription pour cette sortie est terminée' );
+
+        } else
+        {
+            $sortie->addParticipant($userco);
+            $this->addFlash('success', 'Vous avez bien été inscrit à la sortie');
+        }
 
 
         //Enregistrement des données (update)
