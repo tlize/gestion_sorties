@@ -6,28 +6,42 @@
 {% block body %}
 
 
-<div class="container">
-    <div class="c ">
+<div class="container" style="text-align: right ">
+
     <div class="date">
     Date du jour: {{ "now"|date('d/m/y') }}
     </div>
     <div>
      Participant :{{ app.user.pseudo }}
     </div>
-    </div>
+
 </div>
     <h4>Filtrer les sorties</h4>
-    <div>
-        <div class="col-md-4">
+
+        <div class="container">
+            <div class="row">
+                <div class="col-md-5">
        {{ form_start(formTri) }}
 
-       {{ form_widget(formTri)}}
-            <button type="submit" class="btn-primary" >Rechercher </button>
+            {{ form_row(formTri.campus) }}
+            {{ form_row(formTri.q) }}
+            {{ form_row(formTri.dateMin) }}  {{ form_row(formTri.dateMax) }}
+         </div>
+            <div class="col-md-4" >
+                {{ form_row(formTri.organisateur) }}
+                {{ form_row(formTri.inscrit) }}
+                {{ form_row(formTri.pasInscrit) }}
+                {{ form_row(formTri.passees) }}
+            </div>
+            <div class="col-md-3">
+                <button style="height:50px" type="submit" class="btn-primary" >Rechercher </button>
+            </div>
+
        {{ form_end(formTri) }}
+                </div>
+            </div>
+     
 
-
-        </div>
-    </div>
     {% for message in app.flashes('success') %}
         <div class="alert alert-success" role="alert">
             {{ message }}
@@ -56,7 +70,7 @@
                 <th>actions</th>
             </tr>
             </thead>
-            <tbody>
+            <tbody  >
             {% for sortie in sorties %}
                 <tr>
                     <td colspan="1">{{ sortie.nom }}</td>

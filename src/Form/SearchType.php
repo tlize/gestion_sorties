@@ -27,18 +27,20 @@ public function buildForm(FormBuilderInterface $builder, array $options)
                 'placeholder'=>"Rechercher"]
             ])
         ->add('campus', EntityType::class,[
-            'label'=>'campus',
+            'label'=>'Campus',
                 'required'=>false,
                 'class'=> Campus::class,
-                'choice_label'=>'nom'
+                'choice_label'=>'nom',
+
+                'placeholder'=>"Campus"
         ])
         ->add('dateMin', DateTimeType::class, [
-            'label'=>'Debut',
+            'label'=>'Début',
             'required'=>false,
 
         ])
         ->add('dateMax',DateTimeType::class, [
-            'label'=>'et',
+            'label'=>'A',
             'required'=>false,
 
         ])
