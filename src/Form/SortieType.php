@@ -17,8 +17,10 @@ class SortieType extends AbstractType
     {
         $builder
             ->add('nom', null,['label' => 'Nom de la sortie :'])
-            ->add('date_heure_debut', null,['label' => 'Date et heure de la sortie :'])
-            ->add('date_limite_inscription', null,['label' => 'Date limite d\'inscritpion :'])
+            ->add('date_heure_debut', null,['label' => 'Date et heure de la sortie :',
+                'date_widget' => 'single_text',])
+            ->add('date_limite_inscription', null,['label' => 'Date limite d\'inscription :',
+                'date_widget' => 'single_text',])
             ->add('nb_inscriptions_max', null,['label' => 'Nombre de places :'])
             ->add('duree', null,['label' => 'Durée :'])
             ->add('description', null,['label' => 'Description et infos :'])
