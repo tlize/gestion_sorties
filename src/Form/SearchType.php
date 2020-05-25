@@ -24,7 +24,7 @@ public function buildForm(FormBuilderInterface $builder, array $options)
             'label'=>'Le nom de la sortie contient ',
             'required'=>false,
             'attr'=>[
-                'placeholder'=>"Rechercher"]
+                'placeholder'=>'Rechercher']
             ])
         ->add('campus', EntityType::class,[
             'label'=>'Campus',
@@ -32,7 +32,7 @@ public function buildForm(FormBuilderInterface $builder, array $options)
                 'class'=> Campus::class,
                 'choice_label'=>'nom',
 
-                'placeholder'=>"Choisir un campus"
+                'placeholder'=>'Choisir un campus'
         ])
         ->add('dateMin', DateTimeType::class, [
             'label'=>'Début',
