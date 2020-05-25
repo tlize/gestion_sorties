@@ -7,6 +7,7 @@ use App\Entity\Sortie;
 use App\Form\SortieType;
 use App\Repository\SortieRepository;
 use Doctrine\ORM\EntityManagerInterface;
+use phpDocumentor\Reflection\Types\Boolean;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -40,21 +41,9 @@ class SortieController extends AbstractController
         $organisateur->addSortieOrganisee($sortie);
 
         if ($form->isSubmitted() && $form->isValid()) {
-            if($request->get('submit') == 'enregistrer'){
-                // Passe l'état à créée - enregistrement
-                $etat = $this->getDoctrine()->getManager()->getRepository('App:Etat')->find(1);
-                $sortie->setEtat($etat);
-            }
-            elseif ($request->get('submit') == 'publier'){
-                //Passe l'état à ouvert - publication
-                $etat = $this->getDoctrine()->getManager()->getRepository('App:Etat')->find(2);
-                $sortie->setEtat($etat);
-            }
-            $entityManager = $this->getDoctrine()->getManager();
-            $entityManager->persist($sortie);
-            $entityManager->flush();
-
-            return $this->redirectToRoute('sortie_index');
+            $new = true;
+            $this->actions($request, $sortie, $new);
+            return $this->redirectToRoute('default_accueil');
         }
 
         return $this->render('sortie/new.html.twig', [
@@ -78,13 +67,22 @@ class SortieController extends AbstractController
      */
     public function edit(Request $request, Sortie $sortie): Response
     {
+        $userco = $this->getUser();
+        if($userco != $sortie->getOrganisateur()){
+            $this->addFlash('warning','Vous ne pouvez pas modifier cette sortie car vous n\'etes pas l\'organisateur.');
+            return $this->redirectToRoute('default_accueil');
+        }
+        elseif(1 != $sortie->getEtat()->getId()){ //check si l'état de la sortie vaut 1 soit "créée"
+            $this->addFlash('warning','Vous ne pouvez pas modifier une sortie déjà publiée.');
+            return $this->redirectToRoute('default_accueil');
+        }
         $form = $this->createForm(SortieType::class, $sortie);
         $form->handleRequest($request);
+        $new = false;
 
         if ($form->isSubmitted() && $form->isValid()) {
-            $this->getDoctrine()->getManager()->flush();
-
-            return $this->redirectToRoute('sortie_index');
+            $this->actions($request, $sortie, $new);
+            return $this->redirectToRoute('default_accueil');
         }
 
         return $this->render('sortie/edit.html.twig', [
@@ -110,7 +108,7 @@ class SortieController extends AbstractController
     /**
      * @Route("/{id}/register", name="sortie_registration", requirements={"id": "\d+"})
      */
-    public function registration( $id, EntityManagerInterface $em)
+    public function registration($id, EntityManagerInterface $em)
     {
         $userco = $this->getUser();
 
@@ -163,6 +161,7 @@ class SortieController extends AbstractController
         $sortie = $this->getDoctrine()->getManager()->getRepository(Sortie::class)->find($id);
         $sortie->removeParticipant($userco);
         $em->flush();
+        $this->addFlash('success', 'Vous vous êtes bien désinscrit de la sortie');
         return $this->redirectToRoute('default_accueil');
     }
 
@@ -181,4 +180,25 @@ class SortieController extends AbstractController
         return $this->render('sortie/cancel.html.twig', ['sortie' => $sortie]);
     }
 
+    private function actions(Request $request, Sortie $sortie, $new){
+        $entityManager = $this->getDoctrine()->getManager();
+        if($request->get('submit') == 'Enregistrer'){
+            // Passe l'état à créée - enregistrement
+            $etat = $this->getDoctrine()->getManager()->getRepository('App:Etat')->find(1);
+            dump($etat);
+            $sortie->setEtat($etat);
+        }
+        elseif ($request->get('submit') == 'Publier'){
+            //Passe l'état à ouvert - publication
+            $etat = $this->getDoctrine()->getManager()->getRepository('App:Etat')->find(2);
+            $sortie->setEtat($etat);
+        }
+        elseif ($request->get('submit') == 'Supprimer la sortie'){
+            $entityManager->remove($sortie);
+        }
+        if($new){
+            $entityManager->persist($sortie);
+        }
+        $entityManager->flush();
+    }
 }

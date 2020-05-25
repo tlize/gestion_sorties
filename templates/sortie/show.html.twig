@@ -3,70 +3,98 @@
 {% block title %}Sortie{% endblock %}
 
 {% block body %}
+    {%  set inscrit = false %}
     <h1>Sortie</h1>
 
-    <table class="table">
-        <tbody>
-            <tr>
-                <th>Id</th>
-                <td>{{ sortie.id }}</td>
-            </tr>
-            <tr>
-                <th>Nom</th>
-                <td>{{ sortie.nom }}</td>
-            </tr>
-            <tr>
-                <th>Date_heure_debut</th>
-                <td>{{ sortie.dateHeureDebut ? sortie.dateHeureDebut|date('Y-m-d H:i:s') : '' }}</td>
-            </tr>
-            <tr>
-                <th>Duree</th>
-                <td>{{ sortie.duree }}</td>
-            </tr>
-            <tr>
-                <th>Date_limite_inscription</th>
-                <td>{{ sortie.dateLimiteInscription ? sortie.dateLimiteInscription|date('Y-m-d H:i:s') : '' }}</td>
-            </tr>
-            <tr>
-                <th>Nb_inscriptions_max</th>
-                <td>{{ sortie.nbInscriptionsMax }}</td>
-            </tr>
-            <tr>
-                <th>Description</th>
-                <td>{{ sortie.description }}</td>
-            </tr>
-
-        </tbody>
+    <table class="table table-striped">
+        <tr>
+            <th>Nom de la sortie :</th>
+            <td>{{ sortie.nom }}</td>
+        </tr>
+        <tr>
+            <th>Date et heure de la sortie :</th>
+            <td>{{ sortie.dateHeureDebut|date('d-m-Y H:i:s') }}</td>
+        </tr>
+        <tr>
+            <th>Date limite d'inscription :</th>
+            <td>{{ sortie.dateHeureDebut|date('d-m-Y H:i:s') }}</td>
+        </tr>
+        <tr>
+            <th>Nombre de places :</th>
+            <td>{{ sortie.nbInscriptionsMax }}</td>
+        </tr>
+        <tr>
+            <th>Durée :</th>
+            <td>{{ sortie.duree }} minutes</td>
+        </tr>
+        <tr>
+            <th>Description et infos :</th>
+            <td>{{ sortie.description }}</td>
+        </tr>
+        <tr>
+            <th>Campus :</th>
+            <td>{{ sortie.campus.nom }}</td>
+        </tr>
+        <tr>
+            <th>Lieu :</th>
+            <td>{{ sortie.lieu.nom }}</td>
+        </tr>
+        <tr>
+            <th>Rue :</th>
+            <td>{{ sortie.lieu.rue }}</td>
+        </tr>
+        <tr>
+            <th>Code postal :</th>
+            <td>{{ sortie.lieu.ville.codePostal }}</td>
+        </tr>
+        <tr>
+            <th>Ville :</th>
+            <td>{{ sortie.lieu.ville.nom }}</td>
+        </tr>
+        <tr>
+            <th>Latitude :</th>
+            <td>{{ sortie.lieu.latitude }}</td>
+        </tr>
+        <tr>
+            <th>Longitude :</th>
+            <td>{{ sortie.lieu.longitude }}</td>
+        </tr>
     </table>
 <br/>
-    <table class="table">
-        <h4>Liste des participants</h4>
+    <table class="table table-striped">
+
+        {% if sortie.participants | length > 0 %}
+            <h4>Liste des participants</h4>
+        {% else %}
+            <h4>Aucun participant pour cette sortie</h4>
+        {% endif%}
 
         {% for participant in sortie.participants %}
-        <thead>
-            <tr>
-                <th>Pseudo</th>
-                <th>Nom</th>
-            </tr>
-        </thead>
-
-        <tbody>
-            <tr>
-                <td><a href="{{ path('participant_show',{'id': participant.id}) }}"> {{ participant.pseudo }}</a></td>
+            {% if app.user.id == participant.id %}
+                {% set inscrit = true %}
+            {% endif %}
+            <thead>
+                <tr>
+                    <th>Pseudo</th>
+                    <th>Nom</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td><a href="{{ path('participant_show',{'id': participant.id}) }}"> {{ participant.pseudo }}</a></td>
                     <td> {{ participant.prenom }} {{ participant.nom }}</td>
-
-
-            </tr>
-
-        </tbody>
+                </tr>
+            </tbody>
         {% endfor %}
     </table>
 
+    {% if app.user.id == sortie.organisateur.id %}
+        <a class="btn btn-primary" href="{{ path('sortie_edit', {'id': sortie.id}) }}">Modifier la sortie</a>
+    {% elseif inscrit %}
+        <a class="btn btn-primary" href="{{ path('sortie_unregistration', {'id': sortie.id})  }}">Se désister</a>
+    {% else%}
+        <a class="btn btn-primary" href="{{ path('sortie_registration', {'id': sortie.id})  }}">S'inscrire</a>
+    {% endif %}
+    <a class="btn btn-secondary" href="{{ path('default_accueil') }}">Retour</a>
 
-    <a href="{{ path('sortie_registration', {'id': sortie.id})  }}">s'inscrire</a>
-    <a href="{{ path('default_accueil') }}">back to list</a>
-
-    <a href="{{ path('sortie_edit', {'id': sortie.id}) }}">edit</a>
-
-    {{ include('sortie/_delete_form.html.twig') }}
 {% endblock %}
