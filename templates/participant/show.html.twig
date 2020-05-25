@@ -3,39 +3,41 @@
 {% block title %}Participant{% endblock %}
 
 {% block body %}
-    <h1>{{ participant.pseudo }}</h1>
-
-    {% if participant.avatar %}
-        <img src="{{ asset("uploads/avatars/"~participant.avatar) }}" alt="votre avatar" width="200px">
-    {% else %}
-        <img src="{{ asset('img/maxL.JPG') }}" alt="tête de nerd" width="200px">
-    {% endif %}
-
-    <table class="table table-striped">
-        <tbody>
-
-            <tr>
-                <th>Prenom</th>
-                <td>{{ participant.prenom }}</td>
-            </tr>
-            <tr>
-                <th>Nom</th>
-                <td>{{ participant.nom }}</td>
-            </tr>
-            <tr>
-                <th>Telephone</th>
-                <td>{{ participant.telephone }}</td>
-            </tr>
-            <tr>
-                <th>Mail</th>
-                <td>{{ participant.mail }}</td>
-            </tr>
-            <tr>
-                <th>Campus</th>
-                <td>{{ participant.campus.nom }}</td>
-            </tr>
-        </tbody>
-    </table>
-
-    <a class="btn btn-secondary" href="{{ path('default_accueil') }}">Retour</a>
+    <h1 class="mb-3">{{ participant.pseudo }}</h1>
+    <div class="row">
+        <div class="col-lg-3 text-center">
+            {% if participant.avatar %}
+                <img src="{{ asset("uploads/avatars/"~participant.avatar) }}" alt="votre avatar" width="200px">
+            {% else %}
+                <img src="{{ asset('img/avatar_defaut.png') }}" alt="avatar" width="200px">
+            {% endif %}
+        </div>
+        <div class="col-lg-6 text-center">
+            <table class="table table-striped mt-5">
+                <tbody>
+                    <tr>
+                        <th>Prenom</th>
+                        <td>{{ participant.prenom }}</td>
+                    </tr>
+                    <tr>
+                        <th>Nom</th>
+                        <td>{{ participant.nom }}</td>
+                    </tr>
+                    <tr>
+                        <th>Telephone</th>
+                        <td>{{ participant.telephone }}</td>
+                    </tr>
+                    <tr>
+                        <th>Mail</th>
+                        <td>{{ participant.mail }}</td>
+                    </tr>
+                    <tr>
+                        <th>Campus</th>
+                        <td>{{ participant.campus.nom }}</td>
+                    </tr>
+                </tbody>
+            </table>
+            <a class="btn btn-secondary mt-3" href="{{ path('default_accueil') }}">Retour</a>
+        </div>
+    </div>
 {% endblock %}
