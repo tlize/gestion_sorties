@@ -16,8 +16,6 @@
         </div>
     </div>
 
-
-
         <h4>Filtrer les sorties</h4>
         <div class="row">
             <div class="col-xl-5">
@@ -34,44 +32,26 @@
                 {{ form_row(formTri.passees) }}
             </div>
             <div class="col-xl-3">
-                <button style="height:100px;width:200px; align-content:center ; margin-top: 100px; margin-left: -50px"
+                <button style="height:100px;width:200px; align-content:center ; margin-top: 100px"
                         type="submit" class="btn-primary">Rechercher
                 </button>
             </div>
 
             {{ form_end(formTri) }}
         </div>
-
-
-{#        <table class=" table table-striped overflow-auto "#}
-{#               style="table-layout: fixed;margin-left: 20px; font-size: 25px;text-align: center ">#}
-{#            <tr>#}
-{#                <td>Nom de la sortie</td>#}
-{#                <td>Date de la sortie</td>#}
-{#                <td>Clôture</td>#}
-{#                <td>inscrits/places</td>#}
-{#                <td>Etat</td>#}
-{#                <td>Inscrit</td>#}
-{#                <td>Organisateur</td>#}
-{#                <td>actions</td>#}
-
-{#            </tr>#}
-{#        </table>#}
-
-{#        <div class=" overflow-auto " style=" ; height: 350px">#}
     <div class="table-responsive">
             <table class="table table-striped  header-fixed" >
                             <thead>
-                            <tr>
-                                <th>Nom de la sortie</th>
-                                <th>Date de la sortie</th>
-                                <th>Clôture</th>
-                                <th>inscrits/places</th>
-                                <th>Etat</th>
-                                <th>Inscrit</th>
-                                <th>Organisateur</th>
-                                <th>actions</th>
-                            </tr>
+                                <tr>
+                                    <th>Nom de la sortie</th>
+                                    <th>Date de la sortie</th>
+                                    <th>Clôture</th>
+                                    <th>Inscrits/Places</th>
+                                    <th>Etat</th>
+                                    <th>Inscrit</th>
+                                    <th>Organisateur</th>
+                                    <th>Actions</th>
+                                </tr>
                             </thead>
                 <tbody>
                 {% for sortie in sorties %}
@@ -92,9 +72,7 @@
                             <td class="filterable-cell" >{{ sortie.participants | length }}/ {{ sortie.nbInscriptionsMax }}</td>
                             <td class="filterable-cell" >{{ sortie.etat.libelle }}</td>
                             <td class="filterable-cell">{% if inscrit %} X {% endif %}</td>
-                            <td class="filterable-cell" ><a
-                                        href="{{ path('participant_show',{'id': sortie.organisateur.id}) }}">  {{ sortie.organisateur.pseudo }}
-                            </td>
+                            <td class="filterable-cell" ><a href="{{ path('participant_show',{'id': sortie.organisateur.id}) }}">{{ sortie.organisateur.pseudo }}</td>
                             <td class="filterable-cell" >
                                 {% if sortie.etat.id != 1 %}
                                     <a href="{{ path('sortie_show', {'id': sortie.id}) }}">
@@ -135,12 +113,10 @@
                 {% endfor %}
                 </tbody>
             </table>
-        </div>
 </div>
     <div class="row justify-content-center">
         <a class="btn btn-primary " style=" height: 40px; margin-top: 15px;text-align: center"
-           href="{{ path('sortie_new') }}">Créer une
-            sortie</a>
+           href="{{ path('sortie_new') }}">Créer une sortie</a>
     </div>
 
 {% endblock %}
