@@ -5,27 +5,33 @@
 {% block body %}
 
     <h1>Mon Profil</h1>
+
     <div class="row">
         <div class="col-lg-4 text-center">
             {% if participant.avatar %}
                 <img src="{{ asset("uploads/avatars/"~participant.avatar) }}" alt="votre avatar" width="200px">
             {% endif %}
         </div>
-        <div class="col-lg-5">
+        <div class="col-lg-3">
             {{ form_start(form) }}
             {{ form_row(form.pseudo) }}
             {{ form_row(form.nom) }}
             {{ form_row(form.prenom) }}
             {{ form_row(form.telephone) }}
             {{ form_row(form.mail) }}
+        </div>
+        <div class="col-lg-3">
             {{ form_row(form.mot_de_passe) }}
             {{ form_row(form.campus) }}
             {{ form_row(form.avatar) }}
             {{ form_widget(form) }}
-            <input type="submit" class="btn btn-primary" value="Enregistrer"></input>
+            <div class="text-center">
+                <a class="btn btn-secondary" href="{{ path('default_accueil') }}">Retour</a>
+                <input type="submit" class="btn btn-primary" value="Enregistrer"></input>
+            </div>
             {{ form_end(form) }}
         </div>
     </div>
 
-    <a class="btn btn-secondary" href="{{ path('default_accueil') }}">Retour</a>
+
 {% endblock %}
