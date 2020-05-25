@@ -42,11 +42,11 @@
             {{ message }}
         </div>
     {% endfor %}
-    <main>
+    <main class="container-fluid">
         {% block body %}{% endblock %}
     </main>
     <footer class="bg-dark">
-            <div>&copy; Max/Corentin/Tristan/Max {{ "now" | date("Y") }}</div>
+        <div>&copy; Max/Corentin/Tristan/Max {{ "now" | date("Y") }}</div>
     </footer>
 
     {% block javascripts %}{% endblock %}

@@ -3,19 +3,29 @@
 {% block title %}Mon Profil{% endblock %}
 
 {% block body %}
+
     <h1>Mon Profil</h1>
+    <div class="row">
+        <div class="col-lg-4 text-center">
+            {% if participant.avatar %}
+                <img src="{{ asset("uploads/avatars/"~participant.avatar) }}" alt="votre avatar" width="200px">
+            {% endif %}
+        </div>
+        <div class="col-lg-5">
+            {{ form_start(form) }}
+            {{ form_row(form.pseudo) }}
+            {{ form_row(form.nom) }}
+            {{ form_row(form.prenom) }}
+            {{ form_row(form.telephone) }}
+            {{ form_row(form.mail) }}
+            {{ form_row(form.mot_de_passe) }}
+            {{ form_row(form.campus) }}
+            {{ form_row(form.avatar) }}
+            {{ form_widget(form) }}
+            <input type="submit" class="btn btn-primary" value="Enregistrer"></input>
+            {{ form_end(form) }}
+        </div>
+    </div>
 
-    {% if participant.avatar %}
-        <img src="{{ asset("uploads/avatars/"~participant.avatar) }}" alt="votre avatar" width="200px">
-    {% endif %}
-    {{ form_start(form) }}
-    {{ form_widget(form) }}
-    {{ form_row(form.avatar) }}
-    <button class="btn">{{ button_label|default('Save') }}</button>
-    {{ form_end(form) }}
-
-
-    <a href="{{ path('participant_index') }}">back to list</a>
-
-    {{ include('participant/_delete_form.html.twig') }}
+    <a class="btn btn-secondary" href="{{ path('default_accueil') }}">Retour</a>
 {% endblock %}
