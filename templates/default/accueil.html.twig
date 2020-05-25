@@ -18,23 +18,23 @@
 </div>
     <h4>Filtrer les sorties</h4>
 
-        <div class="container">
+        <div class="container-fluid" style="margin-left: 5px">
             <div class="row">
-                <div class="col-md-5">
+                <div class="col-xl-5">
        {{ form_start(formTri) }}
 
             {{ form_row(formTri.campus) }}
             {{ form_row(formTri.q) }}
             {{ form_row(formTri.dateMin) }}  {{ form_row(formTri.dateMax) }}
          </div>
-            <div class="col-md-4" >
+            <div class="col-xl-4" >
                 {{ form_row(formTri.organisateur) }}
                 {{ form_row(formTri.inscrit) }}
                 {{ form_row(formTri.pasInscrit) }}
                 {{ form_row(formTri.passees) }}
             </div>
-            <div class="col-md-3">
-                <button style="height:50px" type="submit" class="btn-primary" >Rechercher </button>
+            <div class="col-xl-3">
+                <button style="height:100px;width:200px; align-content:center ; margin-top: 100px; margin-left: -50px" type="submit" class="btn-primary" >Rechercher </button>
             </div>
 
        {{ form_end(formTri) }}
@@ -42,23 +42,9 @@
             </div>
 
 
-    {% for message in app.flashes('success') %}
-        <div class="alert alert-success" role="alert">
-            {{ message }}
-        </div>
-    {% endfor %}
-
-    {% for message in app.flashes('warning') %}
-        <div class="alert alert-warning" role="alert">
-            {{ message }}
-        </div>
-    {% endfor %}
-
-
-
-    <div class="container overflow-auto " style=" height: 300px">
-        <table class="table table-striped ">
-            <thead>
+    <div class="container-fluid overflow-auto " style="margin-left: 5px; height: 300px">
+        <table class="table table-striped " style="table-layout: fixed">
+            <thead >
             <tr>
                 <th>Nom de la sortie</th>
                 <th>Date de la sortie</th>
@@ -70,39 +56,67 @@
                 <th>actions</th>
             </tr>
             </thead>
-            <tbody  >
+            <tbody>
+            {% set  inscrit = false%}
             {% for sortie in sorties %}
-                <tr>
+
+                {% if sortie.etat.id == 1 and sortie.organisateur.id != app.user.id %}
+
+                {% else %}
+                <tr style="text-align: center">
                     <td colspan="1">{{ sortie.nom }}</td>
                     <td colspan="1">{{ sortie.dateHeureDebut ? sortie.dateHeureDebut|date('d-m-Y H:i') : '' }}</td>
                     <td colspan="1">{{ sortie.dateLimiteInscription ? sortie.dateLimiteInscription|date('d-m-Y ') }}</td>
-                    <td colspan="1">  {{ sortie.participants | length }}/ {{ sortie.nbInscriptionsMax }}</td>
-                    <td colspan="1"> {{ sortie.etat.libelle }}</td>
-                    <td colspan="1"> {% for participant in sortie.participants  %}
+                    <td colspan="1">{{ sortie.participants | length }}/ {{ sortie.nbInscriptionsMax }}</td>
+                    <td colspan="1">{{ sortie.etat.libelle }}</td>
+                    <td colspan="1">{% for participant in sortie.participants  %}
                                         {%  if participant.id == app.user.id  %}
                                           X
+                                            {% set inscrit = true %}
                                         {% endif    %}
-                                    {% endfor %}
+
+                                      {% endfor %}
+
                     </td>
                     <td colspan="1"><a href="{{ path('participant_show',{'id': sortie.organisateur.id}) }}">  {{ sortie.organisateur.pseudo }} </td>
                     <td colspan="1">
-                        <a href="{{ path('sortie_show', {'id': sortie.id}) }}">Afficher</a>
-                        <a href="{{ path('sortie_edit', {'id': sortie.id}) }}">Modifier</a>
-                        <a href="{{ path('sortie_show', {'id': sortie.id}) }}">Publier</a>
-                        <a href="{{ path('sortie_unregistration', {'id': sortie.id}) }}">Se désister</a>
-                        <a href="{{ path('sortie_registration', {'id': sortie.id}) }}">S'inscrire</a>
+                        {% if sortie.etat.id != 1%}
+                            <a href="{{ path('sortie_show', {'id': sortie.id}) }}">
+                                Afficher</a>
+                        {% endif %}
+
+                        {% if sortie.etat.id == 1 and sortie.organisateur.pseudo == app.user.pseudo %}
+                            <a href="{{ path('sortie_edit', {'id': sortie.id}) }}">
+                                Modifier</a>
+                        {% endif %}
+
+                        {% if  sortie.etat.id == 1 and sortie.organisateur.pseudo == app.user.pseudo  %}
+                            <a href="{{ path('sortie_show', {'id': sortie.id}) }}">
+                                Publier</a>
+                        {% endif %}
+
+                        {% if (sortie.etat.id == 2 or sortie.etat.id == 3) and inscrit == true %}
+                            <a href="{{ path('sortie_unregistration', {'id': sortie.id}) }}">
+                                Se désister</a>
+                        {% endif %}
+
+                        {% if sortie.etat.id == 2 and inscrit == false%}<a href="{{ path('sortie_registration', {'id': sortie.id}) }}">S'inscrire</a>
+                        {% endif %}
+
                     </td>
                 </tr>
-            {% else %}
-                <tr>
-                    <td  colspan="8">Aucune sortie trouvée</td>
-                </tr>
+{#            {% else %}#}
+{#                <tr>#}
+{#                    <td  colspan="8">Aucune sortie trouvée</td>#}
+{#                </tr>#}
+                {% endif %}
+                {% set inscrit = false %}
             {% endfor %}
             </tbody>
         </table>
     </div>
 
-    <div>
-        <a  class="btn btn-primary" href="{{ path('sortie_new') }}">Créer une sortie</a>
+    <div class="row justify-content-center">
+        <a  class="btn btn-primary " style=" height: 50px; margin-top: 15px" href="{{ path('sortie_new') }}">Créer une sortie</a>
     </div>
 {% endblock %}

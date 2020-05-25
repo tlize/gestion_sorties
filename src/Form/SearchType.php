@@ -32,7 +32,7 @@ public function buildForm(FormBuilderInterface $builder, array $options)
                 'class'=> Campus::class,
                 'choice_label'=>'nom',
 
-                'placeholder'=>"Campus"
+                'placeholder'=>"Choisir un capus"
         ])
         ->add('dateMin', DateTimeType::class, [
             'label'=>'Début',
@@ -40,7 +40,7 @@ public function buildForm(FormBuilderInterface $builder, array $options)
 
         ])
         ->add('dateMax',DateTimeType::class, [
-            'label'=>'A',
+            'label'=>'a',
             'required'=>false,
 
         ])
