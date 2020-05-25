@@ -34,16 +34,16 @@ public function buildForm(FormBuilderInterface $builder, array $options)
                 'placeholder'=>'Choisir un campus'
         ])
         ->add('dateMin', DateTimeType::class, [
-            'label'=>'De',
+            'label'=>'Entre',
             'date_widget' => 'single_text',
+            'minutes' => [0,15,30,45],
             'required'=>false,
-
         ])
         ->add('dateMax',DateTimeType::class, [
-            'label'=>'à',
+            'label'=>'et',
             'date_widget' => 'single_text',
+            'minutes' => [0,15,30,45],
             'required'=>false,
-
         ])
         ->add('organisateur', CheckboxType::class,[
             'label'=>'Sorties dont je suis l\'organisateur/trice',
