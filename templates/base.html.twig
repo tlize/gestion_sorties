@@ -30,6 +30,17 @@
                 </ul>
             </div>
     </nav>
+    {% for message in app.flashes('success') %}
+        <div class="alert alert-success" role="alert">
+            {{ message }}
+        </div>
+    {% endfor %}
+
+    {% for message in app.flashes('warning') %}
+        <div class="alert alert-danger" role="alert">
+            {{ message }}
+        </div>
+    {% endfor %}
     {% block body %}{% endblock %}
     <footer>&copy; Max/Corentin/Tristan/Max {{ "now" | date("Y") }}</footer>
 
