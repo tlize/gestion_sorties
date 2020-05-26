@@ -34,6 +34,7 @@ class ParticipantType extends AbstractType
                 'class'=>Campus::class,
                 'choice_label' => 'nom',
                 'label' => 'Campus :'])
+
             ->add('avatar', FileType::class, [
                 'label' => 'Ma Photo',
                 'mapped' => false,
