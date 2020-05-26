@@ -3,12 +3,13 @@
 namespace App\Controller;
 
 use App\Entity\Etat;
+use App\Entity\Participant;
 use App\Entity\Sortie;
 use App\Form\SortieCancelType;
 use App\Form\SortieType;
 use App\Repository\SortieRepository;
 use Doctrine\ORM\EntityManagerInterface;
-use phpDocumentor\Reflection\Types\Boolean;
+
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -56,10 +57,11 @@ class SortieController extends AbstractController
     /**
      * @Route("/{id}", name="sortie_show", methods={"GET"})
      */
-    public function show(Sortie $sortie): Response
+    public function show (Sortie $sortie, Participant $participant): Response
     {
         return $this->render('sortie/show.html.twig', [
             'sortie' => $sortie,
+            'participant'=>$participant
         ]);
     }
 

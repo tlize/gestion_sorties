@@ -3,8 +3,8 @@
 {% block title %}New Sortie{% endblock %}
 
 {% block body %}
-    <h1>Créer une sortie</h1>
-
+    <h1 class="d-none d-md-block">Créer une sortie</h1>
+    <div class="d-none d-md-block">
     {{ form_start(form) }}
     {{ form_widget(form) }}
     <input type="submit" class="btn btn-primary" name="submit" value="Enregistrer"></input>
@@ -12,4 +12,5 @@
     {{ form_end(form) }}
 
     <a class="btn btn-secondary" href="{{ path('sortie_index') }}">Annuler</a>
+    </div>
 {% endblock %}

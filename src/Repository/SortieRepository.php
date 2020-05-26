@@ -33,11 +33,13 @@ class SortieRepository extends ServiceEntityRepository
             ->join('s.organisateur','organisateur')
             ->join('s.etat', 'etat')
             ->join('s.lieu','lieu')
+            ->join('lieu.ville','ville')
             ->addSelect('participant')
             ->addSelect('organisateur')
             ->addSelect('etat')
             ->addSelect('cam')
             ->addSelect('lieu')
+            ->addSelect('ville')
             ->andWhere("DATE_ADD(s.date_heure_debut, 1, 'month') > CURRENT_DATE()");
 
         if(!empty($search->q)){
@@ -89,7 +91,7 @@ class SortieRepository extends ServiceEntityRepository
             ;
 
     }
-
+}
 
     // /**
     //  * @return Sortie[] Returns an array of Sortie objects
@@ -120,4 +122,4 @@ class SortieRepository extends ServiceEntityRepository
     }
     */
 
-}
+

@@ -3,16 +3,17 @@
 {% block title %}Participant{% endblock %}
 
 {% block body %}
-    <h1 class="mb-3">{{ participant.pseudo }}</h1>
+    <h1 class="mb-3 d-none d-md-block" >{{ participant.pseudo }}</h1>
+
     <div class="row">
-        <div class="col-lg-3 text-center">
+        <div class="d-none d-md-block col-lg-3 col-md-4 text-center">
             {% if participant.avatar %}
                 <img src="{{ asset("uploads/avatars/"~participant.avatar) }}" alt="votre avatar" width="200px">
             {% else %}
                 <img src="{{ asset('img/avatar_defaut.png') }}" alt="avatar" width="200px">
             {% endif %}
         </div>
-        <div class="col-lg-6 text-center">
+        <div class="d-none d-md-block col-lg-5 col-md-5 text-center">
             <table class="table table-striped mt-5">
                 <tbody>
                     <tr>
@@ -40,4 +41,5 @@
             <a class="btn btn-secondary mt-3" href="{{ path('default_accueil') }}">Retour</a>
         </div>
     </div>
+
 {% endblock %}
