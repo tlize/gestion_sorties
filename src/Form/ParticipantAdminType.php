@@ -13,7 +13,7 @@ use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 use Symfony\Component\Validator\Constraints\Image;
 
-class ParticipantType extends AbstractType
+class ParticipantAdminType extends AbstractType
 {
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
@@ -35,24 +35,9 @@ class ParticipantType extends AbstractType
                 'choice_label' => 'nom',
                 'label' => 'Campus :'])
 
-            ->add('avatar', FileType::class, [
-                'label' => 'Ma Photo',
-                'mapped' => false,
-                'required' => false,
-                'constraints' => [
-                    new Image([
-                        'maxSize' => '1024k'
-                        ,
-                        'mimeTypes' => [
-                            'image/jpg',
-                            'image/jpeg',
-                            'image/png',
-                            'image/gif'
-                        ],
-                        'mimeTypesMessage' => 'Format de fichier non reconnu'
-                    ])
-                ]
-            ])
+            ->add('administrateur')
+            ->add('actif')
+
         ;
     }
 

@@ -84,7 +84,7 @@ class Participant implements UserInterface
     private $sortie_participee;
 
     /**
-     * @ORM\Column(type="string")
+     * @ORM\Column(type="string", nullable=true)
      */
     private $avatar;
 
@@ -326,7 +326,15 @@ class Participant implements UserInterface
      */
     public function getRoles()
     {
-        return ["ROLE_USER"];
+        if ($this->administrateur == 0)
+        {
+            return ["ROLE_USER"];
+        }elseif ($this->administrateur == 1)
+        {
+            return ["ROLE_ADMIN"];
+        }
+
+
     }
 
     /**
