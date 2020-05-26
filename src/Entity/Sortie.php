@@ -34,20 +34,6 @@ class Sortie
      * @Assert\GreaterThan("now", message="La date de la sortie ne peut pas être dans le passé")
      */
     private $date_heure_debut;
-/*
-
-     * @Assert\Callback
-     * @param ExecutionContextInterface $context
-
-    public function validate(ExecutionContextInterface $context)
-    {
-        $validator = $context->getValidator()->inContext($context);
-
-        $validator->atPath('date_heure_debut')->validate($this->date_heure_debut, new Range(array(
-            'min' => $this->min,
-            'max' => $this->max,
-        )));
-    }*/
 
     /**
      * @ORM\Column(type="integer", nullable=true)
@@ -109,7 +95,6 @@ class Sortie
     public function __construct()
     {
         $this->participants = new ArrayCollection();
-        $this->date_limite_inscription = $this->date_heure_debut = new \DateTime();
     }
 
     public function getId(): ?int
