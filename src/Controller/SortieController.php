@@ -4,6 +4,7 @@ namespace App\Controller;
 
 use App\Entity\Etat;
 use App\Entity\Sortie;
+use App\Form\SortieCancelType;
 use App\Form\SortieType;
 use App\Repository\SortieRepository;
 use Doctrine\ORM\EntityManagerInterface;
@@ -172,12 +173,32 @@ class SortieController extends AbstractController
     {
         $userco = $this->getUser();
         $sortie = $this->getDoctrine()->getManager()->getRepository(Sortie::class)->find($id);
-        if ($userco == $sortie->getOrganisateur()){
-            $sortie->setDescription($request->get('motif'));
-            $sortie->setEtat(6);
-            $em->flush();
+
+        if($userco != $sortie->getOrganisateur() or ($sortie->getEtat()->getId() != 2 && $sortie->getEtat()->getId() != 3) ){
+            $this->addFlash('warning','Vous ne pouvez pas annuler cette sortie !');
+            return $this->redirectToRoute('default_accueil');
         }
-        return $this->render('sortie/cancel.html.twig', ['sortie' => $sortie]);
+
+        $originalDescription = $sortie->getdescription();
+        $sortie->setDescription('');
+        $form = $this->createForm(SortieCancelType::class, $sortie);
+
+        $form->handleRequest($request);
+
+        if ($form->isSubmitted() && $form->isValid())
+            {
+                $sortie->setDescription('MOTIF D\'ANNULATION : ' . $sortie->getDescription() . '; DESCRIPTION ORIGINALE : ' . $originalDescription);
+                $etat = $this->getDoctrine()->getManager()->getRepository(Etat::class)->find(6);
+
+                $sortie->setEtat($etat);
+                $em->flush();
+                $this->addFlash('success', 'Sortie annulée !');
+                return $this->redirectToRoute('default_accueil') ;
+            }
+        return $this->render('sortie/cancel.html.twig',
+            ['sortie' => $sortie,
+            'form' => $form->createView()]);
+
     }
 
     private function actions(Request $request, Sortie $sortie, $new){
