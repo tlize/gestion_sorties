@@ -84,7 +84,7 @@ class Participant implements UserInterface
     private $sortie_participee;
 
     /**
-     * @ORM\Column(type="string")
+     * @ORM\Column(type="string", nullable=true)
      */
     private $avatar;
 
