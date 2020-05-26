@@ -1,0 +1,53 @@
+{% extends "base.html.twig" %}
+
+{% block title %}
+        ADD USER
+{% endblock %}
+
+{% block body %}
+
+
+
+
+    <div style="margin-top: 5px ">
+
+
+    <h2>Ajouter un participant</h2>
+    <br/><br/>
+    <div class="row">
+        <div class="col-lg-2"></div>
+        <div class="col-lg-4">
+            {{ form_start(pForm) }}
+
+            {{ form_row(pForm.pseudo) }}
+            {{ form_row(pForm.prenom) }}
+            {{ form_row(pForm.nom) }}
+            {{ form_row(pForm.campus) }}
+            {{ form_row(pForm.administrateur) }}
+            {{ form_row(pForm.actif) }}
+        </div>
+        <div class="col-lg-4">
+            {{ form_row(pForm.telephone) }}
+            {{ form_row(pForm.mail) }}
+            {{ form_row(pForm.mot_de_passe) }}
+
+
+
+        </div>
+
+            <div class="col-lg-4"></div>
+            <div class="col-lg-2">
+                <button style="height:70px;width:150px; align-content:center ; margin-top: 100px; margin-left: -50px"
+                        type="submit" class="btn-primary">Enregistrer
+                </button>
+            </div>
+            <div class="col-lg-6"></div>
+
+
+                 {{ form_end(pForm) }}
+
+
+
+
+
+{% endblock %}
