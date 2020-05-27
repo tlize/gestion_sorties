@@ -5,13 +5,14 @@
 
 {% block body %}
 
-<div class=" container-fluid ">
-    <div  style="margin-top: 5px ">
-
-        <div class="date d-none d-lg-block">
+{#<div >#}
+    <div  class=" container-fluid row" style="margin-top: 5px ">
+        <div class="col-lg-9"></div>
+        <div class="date d-none d-lg-block col-lg-3">
             Date du jour : {{ "now"|date('d/m/y') }}
         </div>
-        <div class="d-none d-lg-block">
+        <div class="col-lg-9"></div>
+        <div class="d-none d-lg-block col-lg-3">
             Participant : {{ app.user.pseudo }}
         </div>
     </div>
@@ -118,7 +119,7 @@
 </div>
     <div class="d-block d-md-none">
     <div class="table-responsive">
-        <table class="table table-striped  header-fixed" >
+        <table class="table table-striped  header-fixed header-fix-mobile" >
             <thead>
             <tr>
                 <th>Nom de la sortie</th>
@@ -128,14 +129,16 @@
             </thead>
             <tbody>
             {% for sortie in sorties %}
-                {% set  inscrit = false %}
-                {% for participant in sortie.participants %}
-                    {% if participant.id == app.user.id %}
-                        {% set inscrit = true %}
-                    {% endif %}
-                {% endfor %}
+{#                {% set  inscrit = false %}#}
+{#                {% for participant in sortie.participants %}#}
+{#                    {% if participant.id == app.user.id %}#}
+{#                        {% set inscrit = true %}#}
+{#                    {% endif %}#}
+                {% if sortie.campus == app.user.campus %}
 
-                {% if inscrit %}
+
+
+{#                {% if inscrit %}#}
                     <tr style="text-align: center">
                         <td class="filterable-cell " ><a href="{{ path('sortie_show', {'id': sortie.id}) }}"> {{ sortie.nom }} </a> </td>
                         <td class="filterable-cell " >{{ sortie.dateHeureDebut ? sortie.dateHeureDebut|date('d-m-Y H:i') : '' }}</td>
@@ -152,12 +155,10 @@
         </table>
     </div>
     </div>
-
-
-
-    <div class="row justify-content-center d-none d-md-block">
-        <a class="btn btn-primary " style=" height: 40px; margin-top: 15px;text-align: center"
-           href="{{ path('sortie_new') }}">Créer une sortie</a>
+    <div class="d-none d-md-block">
+        <div class="row justify-content-center ">
+            <a class="btn btn-primary " style=" height: 40px; margin-top: 15px;text-align: center"
+               href="{{ path('sortie_new') }}">Créer une sortie</a>
+        </div>
     </div>
-
 {% endblock %}

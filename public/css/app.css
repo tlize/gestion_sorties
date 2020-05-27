@@ -53,3 +53,8 @@ footer div{
     width: 12.5%;
     float: left;
 }
+.header-fix-mobile > tbody > tr > td,
+.header-fix-mobile > thead > tr > th {
+    width: 32%;
+    float: left;
+}
