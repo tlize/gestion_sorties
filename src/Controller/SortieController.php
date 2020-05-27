@@ -114,13 +114,12 @@ class SortieController extends AbstractController
     public function registration($id, EntityManagerInterface $em)
     {
         $userco = $this->getUser();
-
         $em = $this->getDoctrine()->getManager();
         $sortieRepo = $em->getRepository(Sortie::class);
+        $etatRepo = $em->getRepository(Etat::class);
+        $etatCloture = $etatRepo->find(3);
         $sortie = $sortieRepo->find($id);
-        $etatSortie = $sortieRepo->findAll();
-
-        $date =  new \DateTime();
+        $dateActuelle =  new \DateTime();
 
         //Conditions pour pouvoir s\inscrire a une sortie
 
@@ -137,7 +136,7 @@ class SortieController extends AbstractController
         {
                $this->addFlash('warning','Vous êtes déjà inscrit à la sortie');
 
-        } elseif ($sortie->getDateLimiteInscription() < $date)
+        }elseif ($sortie->getDateLimiteInscription() < $dateActuelle)
         {
             $this->addFlash('warning', 'La période d\'inscription pour cette sortie est terminée' );
 
@@ -145,11 +144,11 @@ class SortieController extends AbstractController
         {
             $sortie->addParticipant($userco);
             $this->addFlash('success', 'Vous avez bien été inscrit à la sortie');
+            if($sortie->getNbInscriptionsMax() == $sortie->getParticipants()->count()){
+                $sortie->setEtat($etatCloture);
+            }
         }
-
-
         //Enregistrement des données (update)
-
         $em->flush();
 
         return $this->redirectToRoute('default_accueil');
@@ -162,9 +161,28 @@ class SortieController extends AbstractController
     {
         $userco = $this->getUser();
         $sortie = $this->getDoctrine()->getManager()->getRepository(Sortie::class)->find($id);
-        $sortie->removeParticipant($userco);
+        $etatRepo = $em->getRepository(Etat::class);
+        $etatOuvert = $etatRepo->find(2);
+        $etatCloture = $etatRepo->find(3);
+        $etatEnCours = $etatRepo->find(4);
+        $dateActuelle =  new \DateTime();
+
+        if($sortie->getDateLimiteInscription() > $dateActuelle ){
+            $sortie->setEtat($etatOuvert);
+        }elseif ($sortie->getDateHeureDebut() < $dateActuelle ){
+            $sortie->setEtat($etatCloture);
+        }else{
+            $sortie->setEtat($etatEnCours);
+        }
+
+        if($sortie->getEtat() != $etatEnCours){
+            $sortie->removeParticipant($userco);
+            $this->addFlash('success', 'Vous vous êtes bien désinscrit de la sortie');
+        }else{
+            $this->addFlash('warning', 'Il est trop tard pour vous désinscrire de cette sortie');
+        }
+
         $em->flush();
-        $this->addFlash('success', 'Vous vous êtes bien désinscrit de la sortie');
         return $this->redirectToRoute('default_accueil');
     }
 
