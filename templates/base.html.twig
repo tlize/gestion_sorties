@@ -31,18 +31,17 @@
                 </ul>
             </div>
     </nav>
+    <main class="container-fluid">
     {% for message in app.flashes('success') %}
         <div class="alert alert-success" role="alert">
             {{ message }}
         </div>
     {% endfor %}
-
     {% for message in app.flashes('warning') %}
         <div class="alert alert-danger" role="alert">
             {{ message }}
         </div>
     {% endfor %}
-    <main class="container-fluid">
         {% block body %}{% endblock %}
     </main>
     <footer class="bg-dark fixed-bottom">
