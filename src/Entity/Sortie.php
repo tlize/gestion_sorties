@@ -31,7 +31,7 @@ class Sortie
 
     /**
      * @ORM\Column(type="datetime")
-     * @Assert\GreaterThan("now", message="La date de la sortie ne peut pas être dans le passé")
+     * @Assert\GreaterThan("now", message="La date de la sortie ne peut pas être révolue.")
      */
     private $date_heure_debut;
 
@@ -43,7 +43,8 @@ class Sortie
     /**
      * @ORM\Column(type="datetime")
      * @Assert\LessThan(propertyPath="date_heure_debut", message="La date de fin des inscriptions ne peut pas être
-     * avant la date de début de la sortie")
+     * avant la date de début de la sortie.")
+     * @Assert\GreaterThan("now", message="La date de fin des inscriptions ne peut pas être révolue.")
      */
     private $date_limite_inscription;
 

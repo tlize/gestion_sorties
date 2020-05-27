@@ -75,7 +75,7 @@ class SortieController extends AbstractController
             $this->addFlash('warning','Vous ne pouvez pas modifier cette sortie car vous n\'etes pas l\'organisateur.');
             return $this->redirectToRoute('default_accueil');
         }
-        elseif(1 != $sortie->getEtat()->getId()){ //check si l'état de la sortie vaut 1 soit "créée"
+        elseif(1 != $sortie->getEtat()->getId()){ //check si l'état de la sortie vaut 1 =>  etat créée
             $this->addFlash('warning','Vous ne pouvez pas modifier une sortie déjà publiée.');
             return $this->redirectToRoute('default_accueil');
         }
