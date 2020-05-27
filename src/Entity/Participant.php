@@ -68,7 +68,7 @@ class Participant implements UserInterface, \Serializable
     /**
      * @ORM\Column(type="string")
      */
-private $avatar;
+    private $avatar;
 
     /**
      * @ORM\Column(type="integer")
@@ -424,11 +424,11 @@ private $avatar;
 
     public function serialize()
     {
-       return serialize(array(
-           $this->id,
-           $this->pseudo,
-           $this->mot_de_passe
-       ));
+        return serialize(array(
+            $this->id,
+            $this->pseudo,
+            $this->mot_de_passe
+        ));
     }
 
     public function unserialize($serialized)
@@ -440,4 +440,3 @@ private $avatar;
             ) = unserialize($serialized, array('allowed_classes' => false));
     }
 }
-
