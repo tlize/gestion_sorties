@@ -11,7 +11,11 @@ use Symfony\Component\Form\Extension\Core\Type\FileType;
 use Symfony\Component\Form\Extension\Core\Type\RepeatedType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
+use Symfony\Component\Validator\Constraints\File;
 use Symfony\Component\Validator\Constraints\Image;
+use Symfony\Component\Validator\Constraints\ImageValidator;
+use Vich\UploaderBundle\Form\Type\VichImageType;
+use Symfony\Component\Serializer\Serializer;
 
 class ParticipantType extends AbstractType
 {
@@ -34,24 +38,8 @@ class ParticipantType extends AbstractType
                 'class'=>Campus::class,
                 'choice_label' => 'nom',
                 'label' => 'Campus :'])
-
-            ->add('avatar', FileType::class, [
-                'label' => 'Ma Photo',
-                'mapped' => false,
-                'required' => false,
-                'constraints' => [
-                    new Image([
-                        'maxSize' => '1024k'
-                        ,
-                        'mimeTypes' => [
-                            'image/jpg',
-                            'image/jpeg',
-                            'image/png',
-                            'image/gif'
-                        ],
-                        'mimeTypesMessage' => 'Format de fichier non reconnu'
-                    ])
-                ]
+            ->add('avatarFile', VichImageType::class, [
+                'label'=>'Modifier mon avatar'
             ])
         ;
     }

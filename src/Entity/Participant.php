@@ -7,14 +7,17 @@ use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
+use Symfony\Component\HttpFoundation\File\File;
 use Symfony\Component\Security\Core\User\UserInterface;
 use Symfony\Component\Validator\Constraints as Assert;
+use Vich\UploaderBundle\Mapping\Annotation as Vich;
 
 /**
  * @ORM\Entity(repositoryClass=ParticipantRepository::class)
  * @UniqueEntity(fields={"mail"})
+ * @Vich\Uploadable()
  */
-class Participant implements UserInterface
+class Participant implements UserInterface, \Serializable
 {
     /**
      * @ORM\Id()
@@ -58,6 +61,93 @@ class Participant implements UserInterface
     private $mot_de_passe;
 
     /**
+     * @Vich\UploadableField(mapping="participant_avatar", fileNameProperty="avatar", size="avatarSize")
+     */
+    private $avatarFile;
+
+    /**
+     * @ORM\Column(type="string")
+     */
+private $avatar;
+
+    /**
+     * @ORM\Column(type="integer")
+     */
+    private $avatarSize;
+
+    /**
+     * @ORM\Column(type="integer")
+     */
+    private $updateVersion;
+
+    /**
+     * @return mixed
+     */
+    public function getAvatarFile()
+    {
+        return $this->avatarFile;
+    }
+
+    /**
+     * @param mixed $avatarFile
+     */
+    public function setAvatarFile(File $avatarFile): void
+    {
+        $this->avatarFile = $avatarFile;
+        if (null != $avatarFile){
+            $this->setUpdateVersion($this->updateVersion + 1);
+        }
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getAvatar()
+    {
+        return $this->avatar;
+    }
+
+    /**
+     * @param mixed $avatar
+     */
+    public function setAvatar($avatar): void
+    {
+        $this->avatar = $avatar;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getAvatarSize()
+    {
+        return $this->avatarSize;
+    }
+
+    /**
+     * @param mixed $avatarSize
+     */
+    public function setAvatarSize($avatarSize): void
+    {
+        $this->avatarSize = $avatarSize;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getUpdateVersion()
+    {
+        return $this->updateVersion;
+    }
+
+    /**
+     * @param mixed $updateVersion
+     */
+    public function setUpdateVersion($updateVersion): void
+    {
+        $this->updateVersion = $updateVersion;
+    }
+
+    /**
      * @ORM\Column(type="boolean")
      */
     private $administrateur;
@@ -83,35 +173,13 @@ class Participant implements UserInterface
      */
     private $sortie_participee;
 
-    /**
-     * @ORM\Column(type="string", nullable=true)
-     */
-    private $avatar;
-
     //Pas sauvegardé en base
     private $roles;
-
 
     public function __construct()
     {
         $this->sortie_organisee = new ArrayCollection();
         $this->sortie_participee = new ArrayCollection();
-    }
-
-    /**
-     * @return mixed
-     */
-    public function getAvatar()
-    {
-        return $this->avatar;
-    }
-
-    /**
-     * @param mixed $avatar
-     */
-    public function setAvatar($avatar): void
-    {
-        $this->avatar = $avatar;
     }
 
     public function getId(): ?int
@@ -233,7 +301,6 @@ class Participant implements UserInterface
             $this->sortie_organisee[] = $sortieOrganisee;
             $sortieOrganisee->setOrganisateur($this);
         }
-
         return $this;
     }
 
@@ -329,12 +396,12 @@ class Participant implements UserInterface
         if ($this->administrateur == 0)
         {
             return ["ROLE_USER"];
-        }elseif ($this->administrateur == 1)
+        }
+        elseif ($this->administrateur == 1)
         {
             return ["ROLE_ADMIN"];
         }
-
-
+        return $this->roles;
     }
 
     /**
@@ -353,6 +420,24 @@ class Participant implements UserInterface
     public function eraseCredentials()
     {
         // TODO: Implement eraseCredentials() method.
+    }
+
+    public function serialize()
+    {
+       return serialize(array(
+           $this->id,
+           $this->pseudo,
+           $this->mot_de_passe
+       ));
+    }
+
+    public function unserialize($serialized)
+    {
+        list (
+            $this->id,
+            $this->pseudo,
+            $this->mot_de_passe,
+            ) = unserialize($serialized, array('allowed_classes' => false));
     }
 }
 

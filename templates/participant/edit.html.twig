@@ -4,27 +4,28 @@
 
 {% block body %}
 
-    <h1 class="d-none d-md-block">Mon Profil</h1>
+    <h1>Mon Profil</h1>
 
-    <div class="row ">
-        <div class="col-md-4 col-lg-4 text-center">
+    <div class="row">
+        <div class="col-lg-4 text-center">
             {% if participant.avatar %}
                 <img src="{{ asset("uploads/avatars/"~participant.avatar) }}" alt="votre avatar" width="200px">
+            {% else %}
+                <img src="{{ asset('img/avatar_defaut.png') }}" alt="avatar" width="200px">
             {% endif %}
         </div>
-        <div class="col-md-3 col-lg-3 d-none d-md-block">
+        <div class="col-lg-3">
             {{ form_start(form) }}
             {{ form_row(form.pseudo) }}
+            {{ form_row(form.avatarFile) }}
             {{ form_row(form.nom) }}
             {{ form_row(form.prenom) }}
             {{ form_row(form.telephone) }}
             {{ form_row(form.mail) }}
         </div>
-        <div class="col-md-3 col-lg-3 d-none d-md-block">
+        <div class="col-lg-3">
             {{ form_row(form.mot_de_passe) }}
             {{ form_row(form.campus) }}
-            {{ form_row(form.avatar) }}
-            {{ form_widget(form) }}
             <div class="text-center d-none d-md-block">
                 <a class="btn btn-secondary" href="{{ path('default_accueil') }}">Retour</a>
                 <input type="submit" class="btn btn-primary " value="Enregistrer"></input>
@@ -32,6 +33,5 @@
             {{ form_end(form) }}
         </div>
     </div>
-
 
 {% endblock %}

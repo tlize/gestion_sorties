@@ -71,28 +71,6 @@ class ParticipantController extends AbstractController
 
         if ($form->isSubmitted() && $form->isValid()) {
 
-            /**
-             * @var UploadedFile $avatarFile
-             */
-            $avatarFile = $form ->get('avatar') ->getData();
-
-            if ($avatarFile){
-                $originalAvatar = pathinfo($avatarFile -> getClientOriginalName(), PATHINFO_FILENAME);
-                $avatarVerif = transliterator_transliterate('Any-Latin; Latin-ASCII; [^A-Za-z0-9_] remove; Lower()', $originalAvatar);
-                $nveauNom = $avatarVerif . '-' . uniqid() . $avatarFile -> guessExtension();
-
-                try {
-                    $avatarFile -> move(
-                        $this -> getParameter('dossierAvatars'), $nveauNom
-                    );
-                } catch (FileException $e) {
-
-                }
-
-                $this ->getUser() -> setAvatar($nveauNom);
-
-            }
-
             $this->getDoctrine()->getManager()->flush();
 
             return $this->redirectToRoute('participant_index');
@@ -100,7 +78,6 @@ class ParticipantController extends AbstractController
 
         return $this->render('participant/edit.html.twig', [
             'participant' => $id,
-//            'campus' => $this->
             'form' => $form->createView(),
         ]);
     }
