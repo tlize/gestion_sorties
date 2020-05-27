@@ -19,7 +19,7 @@
         <div class="col-lg-3 col-md-6" >
             <p> {{ sortie.nom }}</p>
             <p> {{ sortie.dateHeureDebut|date('d-m-Y H:i:s') }}</p>
-            <p> {{ sortie.dateHeureDebut|date('d-m-Y H:i:s') }}</p>
+            <p>{{ sortie.dateLimiteInscription ? sortie.dateLimiteInscription|date('d-m-Y ') }}</p>
             <p> {{ sortie.nbInscriptionsMax }}</p>
             <p> {{ sortie.duree }} minutes</p>
             <p> {{ sortie.description }}</p>
