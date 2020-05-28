@@ -62,6 +62,13 @@ class Participant implements UserInterface, \Serializable
 
     /**
      * @Vich\UploadableField(mapping="participant_avatar", fileNameProperty="avatar", size="avatarSize")
+     * @Assert\Image(
+     *    maxSize="1024k",
+     *     maxSizeMessage="Fichier trop volumineux (maximum 1024k)",
+     *     mimeTypes={"image/png", "image/jpg", "image/jpeg"},
+     *     mimeTypesMessage="Format de fichier non autorisé (uniquement png, jpg, jpeg)" ,
+     *
+     * )
      */
     private $avatarFile;
 

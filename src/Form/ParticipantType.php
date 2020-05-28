@@ -7,15 +7,10 @@ use App\Entity\Participant;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\PasswordType;
-use Symfony\Component\Form\Extension\Core\Type\FileType;
 use Symfony\Component\Form\Extension\Core\Type\RepeatedType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
-use Symfony\Component\Validator\Constraints\File;
-use Symfony\Component\Validator\Constraints\Image;
-use Symfony\Component\Validator\Constraints\ImageValidator;
 use Vich\UploaderBundle\Form\Type\VichImageType;
-use Symfony\Component\Serializer\Serializer;
 
 class ParticipantType extends AbstractType
 {
@@ -39,7 +34,9 @@ class ParticipantType extends AbstractType
                 'choice_label' => 'nom',
                 'label' => 'Campus :'])
             ->add('avatarFile', VichImageType::class, [
-                'label'=>'Modifier mon avatar'
+                'label'=>'Avatar',
+                'required'=>false,
+                'download_uri'=>false,
             ])
         ;
     }

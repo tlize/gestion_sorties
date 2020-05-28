@@ -3,15 +3,13 @@
 namespace App\Controller;
 
 use App\Entity\Participant;
-use App\Entity\Utilisateur;
 use App\Form\ParticipantType;
 use App\Repository\ParticipantRepository;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
-use Symfony\Component\HttpFoundation\File\Exception\FileException;
-use Symfony\Component\HttpFoundation\File\UploadedFile;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
+use Symfony\Component\Security\Core\Encoder\UserPasswordEncoderInterface;
 
 /**
  * @Route("/participant")
@@ -64,20 +62,22 @@ class ParticipantController extends AbstractController
     /**
      * @Route("/{id}/edit", name="participant_edit", methods={"GET","POST"})
      */
-    public function edit(Request $request, Participant $id): Response
+    public function edit(Request $request, Participant $participant, UserPasswordEncoderInterface $encoder): Response
     {
-        $form = $this->createForm(ParticipantType::class, $id);
+        $form = $this->createForm(ParticipantType::class, $participant);
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
 
+            $hashed = $encoder->encodePassword($participant, $participant->getPassword());
+            $participant->setPassword($hashed);
             $this->getDoctrine()->getManager()->flush();
 
-            return $this->redirectToRoute('participant_index');
+            return $this->redirectToRoute('default_accueil');
         }
 
         return $this->render('participant/edit.html.twig', [
-            'participant' => $id,
+            'participant' => $participant,
             'form' => $form->createView(),
         ]);
     }
