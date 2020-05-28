@@ -3,6 +3,7 @@
 namespace App\Controller;
 
 use App\Entity\Etat;
+use App\Entity\Lieu;
 use App\Entity\Participant;
 use App\Entity\Sortie;
 use App\Form\SortieCancelType;
@@ -11,6 +12,7 @@ use App\Repository\SortieRepository;
 use Doctrine\ORM\EntityManagerInterface;
 
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
@@ -55,9 +57,9 @@ class SortieController extends AbstractController
     }
 
     /**
-     * @Route("/{id}", name="sortie_show", methods={"GET"})
+     * @Route("/{id}", name="sortie_show", methods={"GET"}, requirements={"id": "\d+"})
      */
-    public function show (Sortie $sortie, Participant $participant): Response
+    public function show(Sortie $sortie, Participant $participant): Response
     {
         return $this->render('sortie/show.html.twig', [
             'sortie' => $sortie,
@@ -66,7 +68,7 @@ class SortieController extends AbstractController
     }
 
     /**
-     * @Route("/{id}/edit", name="sortie_edit", methods={"GET","POST"})
+     * @Route("/{id}/edit", name="sortie_edit", methods={"GET","POST"}, requirements={"id": "\d+"})
      */
     public function edit(Request $request, Sortie $sortie): Response
     {
@@ -95,7 +97,7 @@ class SortieController extends AbstractController
     }
 
     /**
-     * @Route("/{id}", name="sortie_delete", methods={"DELETE"})
+     * @Route("/{id}", name="sortie_delete", methods={"DELETE"}, requirements={"id": "\d+"})
      */
     public function delete(Request $request, Sortie $sortie): Response
     {
@@ -220,6 +222,36 @@ class SortieController extends AbstractController
             'form' => $form->createView()]);
 
     }
+
+    /**
+     * Returns a JSON string with the neighborhoods of the City with the providen id.
+     * @Route("/lieux", name="sortie_lieux")
+     * @param Request $request
+     * @return JsonResponse
+     */
+    public function lieuxVille(Request $request)
+    {
+        $em = $this->getDoctrine()->getManager();
+        $lieuRepo = $em->getRepository(Lieu::class);
+
+        $lieux = $lieuRepo->createQueryBuilder("q")
+            ->where("q.ville = :villeid")
+            ->setParameter("villeid", $request->query->get("villeid"))
+            ->getQuery()
+            ->getResult();
+        $responseArray = array();
+
+        foreach($lieux as $lieu){
+            $responseArray[] = array(
+                "id" => $lieu->getId(),
+                "nom" => $lieu->getNom()
+            );
+        }
+
+        return new JsonResponse($responseArray);
+
+    }
+
 
     private function actions(Request $request, Sortie $sortie, $new){
         $entityManager = $this->getDoctrine()->getManager();
