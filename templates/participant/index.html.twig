@@ -35,6 +35,7 @@
                 <td>
                     <a href="{{ path('participant_show', {'id': participant.id}) }}">show</a>
                     <a href="{{ path('participant_edit', {'id': participant.id}) }}">edit</a>
+                    <a href="{{ path('administrateur_change_actif', {'id': participant.id}) }}">Modifier l'etat</a>
                 </td>
             </tr>
         {% else %}

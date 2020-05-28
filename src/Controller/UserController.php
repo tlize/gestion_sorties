@@ -22,7 +22,14 @@ class UserController extends AbstractController
         $error = $authenticationUtils->getLastAuthenticationError();
         // last username entered by the user
         $lastUsername = $authenticationUtils->getLastUsername();
-
+        if($this->getUser()){
+            if($this->getUser()->getActif() == 0){
+                $this->addFlash('warning','Vous êtes banni !');
+            }else{
+                $this->addFlash('warning','Vous n\'avez pas accès à cette page !');
+                return $this->redirectToRoute('default_accueil');
+            }
+        }
         return $this->render('security/login.html.twig', ['last_username' => $lastUsername, 'error' => $error]);
     }
 
