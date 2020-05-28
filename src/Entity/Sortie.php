@@ -7,8 +7,6 @@ use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Validator\Constraints as Assert;
-use Symfony\Component\Validator\Context\ExecutionContextInterface;
-
 
 /**
  * @ORM\Entity(repositoryClass=SortieRepository::class)
@@ -87,11 +85,7 @@ class Sortie
      */
     private $etat;
 
-    /**
-     * @Assert\Type(type="App\Entity\Ville")
-     * @Assert\Valid
-     */
-    private $ville;
+
 
     public function __construct()
     {
@@ -248,16 +242,6 @@ class Sortie
         $this->etat = $etat;
 
         return $this;
-    }
-
-    public function getVille()
-    {
-        return $this->ville;
-    }
-
-    public function setVille(Ville $ville = null)
-    {
-        $this->ville = $ville;
     }
 
 
