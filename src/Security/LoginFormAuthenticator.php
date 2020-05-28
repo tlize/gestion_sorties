@@ -80,7 +80,7 @@ class LoginFormAuthenticator extends AbstractFormLoginAuthenticator implements P
     public function checkCredentials($credentials, UserInterface $user)
     {
         // A DECOMMENTER UNE FOIS QUE LA CREATION DE COMPTE SERA FONCTIONNELLE
-        return true; //$this->passwordEncoder->isPasswordValid($user, $credentials['mot_de_passe']);
+        return $this->passwordEncoder->isPasswordValid($user, $credentials['mot_de_passe']);
     }
     public function getPassword($credentials): ?string
     {

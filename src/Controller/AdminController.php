@@ -10,6 +10,8 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Routing\Annotation\Route;
 
+use Symfony\Component\Security\Core\Encoder\UserPasswordEncoderInterface;
+
 class AdminController extends AbstractController
 {
     /**
@@ -26,7 +28,7 @@ class AdminController extends AbstractController
     /**
      * @Route("/admin/add", name="administrateur_addUser")
      */
-    public function addUser(EntityManagerInterface $entityManager, Request $request)
+    public function addUser(EntityManagerInterface $entityManager, Request $request, UserPasswordEncoderInterface $encoder)
     {
         // @todo Traiter les formulaires
 
@@ -36,10 +38,15 @@ class AdminController extends AbstractController
 
         if ($pForm->isSubmitted() && $pForm->isValid()) {
             $entityManager = $this->getDoctrine()->getManager();
+
+            $hashed = $encoder->encodePassword($newParticipant, $newParticipant->getPassword());
+            $newParticipant->setPassword($hashed);
+
             $entityManager->persist($newParticipant);
             $entityManager->flush();
 
-            return $this->redirectToRoute('participant_index');
+            $this->addFlash('success', 'Le nouveau participant à bien été enregistré !');
+            return $this->redirectToRoute('administrateur_addUser');
         }
 
         return $this->render('administrateur/addParticipant.html.twig', [
@@ -47,6 +54,8 @@ class AdminController extends AbstractController
             'pForm' => $pForm->createView(),
         ]);
         }
+
+
 
 
 }
