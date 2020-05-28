@@ -20,14 +20,16 @@
 
                     <!--<li class="nav-item"><a href="{{ path('ville_index') }}" class="nav-link">Villes</a></li>
                     <li class="nav-item"><a href="{{ path('campus_index') }}" class="nav-link">Campus</a></li>-->
-                    <li class="nav-item"><a href="{{ path('administrateur_accueilAdmin')}}" class="nav-link" >Administrateur</a></li>
-                    <li class="nav-item"><a href="{{path('default_accueil')}}" class="nav-link">Accueil</a></li>
-                {% if is_granted('IS_AUTHENTICATED_REMEMBERED') %}
-                    <li class="nav-item"><a href="{{ path('participant_edit', {'id': app.user.id}) }}" class="nav-link">Mon Profil</a></li>
-                    <li class="nav-item"><a href="{{path('app_logout')}}" class="nav-link">Se Déconnecter</a></li>
-                {% else %}
-                    <li class="nav-item"><a href="{{ path('app_login') }}" class="nav-link">Connexion</a></li>
-                {% endif %}
+                    {% if (app.user and app.user.administrateur == 1) %}
+                        <li class="nav-item"><a href="{{ path('administrateur_accueilAdmin')}}" class="nav-link" >Administrateur</a></li>
+                    {% endif %}
+                    {% if is_granted('IS_AUTHENTICATED_REMEMBERED') %}
+                        <li class="nav-item"><a href="{{path('default_accueil')}}" class="nav-link">Accueil</a></li>
+                        <li class="nav-item"><a href="{{ path('participant_edit', {'id': app.user.id}) }}" class="nav-link">Mon Profil</a></li>
+                        <li class="nav-item"><a href="{{path('app_logout')}}" class="nav-link">Se Déconnecter</a></li>
+                    {% else %}
+                        <li class="nav-item"><a href="{{ path('app_login') }}" class="nav-link">Connexion</a></li>
+                    {% endif %}
                 </ul>
             </div>
     </nav>

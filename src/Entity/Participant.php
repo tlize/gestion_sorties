@@ -402,12 +402,18 @@ class Participant implements UserInterface, \Serializable
     {
         if ($this->administrateur == 0)
         {
-            return ["ROLE_USER"];
+            if ($this->actif == 0)
+            {
+                return ["ROLE_BANNI"];
+            }else{
+                return ["ROLE_USER"];
+            }
         }
         elseif ($this->administrateur == 1)
         {
             return ["ROLE_ADMIN"];
         }
+
         return $this->roles;
     }
 

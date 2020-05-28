@@ -7,15 +7,19 @@ use App\Form\ParticipantAdminType;
 use Doctrine\ORM\EntityManagerInterface;
 
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Routing\Annotation\Route;
 
 use Symfony\Component\Security\Core\Encoder\UserPasswordEncoderInterface;
 
+/**
+ * @Route("/admin")
+ */
 class AdminController extends AbstractController
 {
     /**
-     * @Route("/admin", name="administrateur_accueilAdmin")
+     * @Route("/", name="administrateur_accueilAdmin")
      */
     public function accueilAdmin()
     {
@@ -26,7 +30,7 @@ class AdminController extends AbstractController
     }
 
     /**
-     * @Route("/admin/add", name="administrateur_addUser")
+     * @Route("/add", name="administrateur_addUser")
      */
     public function addUser(EntityManagerInterface $entityManager, Request $request, UserPasswordEncoderInterface $encoder)
     {
@@ -54,6 +58,25 @@ class AdminController extends AbstractController
             'pForm' => $pForm->createView(),
         ]);
         }
+
+    /**
+     *
+     *@Route("/{id}/change_actif", name="administrateur_change_actif", requirements={"id": "\d+"})
+     */
+    public function changeActif(EntityManagerInterface $entityManager, Request $request, Participant $participant)
+    {
+        if($participant->getActif() == 0){
+            $participant->setActif(1);
+        }else{
+            $participant->setActif(0);
+        }
+        $entityManager->flush();
+
+        $this->addFlash('success', 'L\'etat de '.$participant->getPseudo().' a été changé !');
+
+        return $this->redirectToRoute('participant_index');
+    }
+
 
 
 
