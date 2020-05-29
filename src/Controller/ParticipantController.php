@@ -18,6 +18,8 @@ class ParticipantController extends AbstractController
 {
     /**
      * @Route("/", name="participant_index", methods={"GET"})
+     * @param ParticipantRepository $participantRepository
+     * @return Response
      */
     public function index(ParticipantRepository $participantRepository): Response
     {
@@ -28,6 +30,8 @@ class ParticipantController extends AbstractController
 
     /**
      * @Route("/new", name="participant_new", methods={"GET","POST"})
+     * @param Request $request
+     * @return Response
      */
     public function new(Request $request): Response
     {
@@ -51,6 +55,8 @@ class ParticipantController extends AbstractController
 
     /**
      * @Route("/{id}", name="participant_show", methods={"GET"})
+     * @param Participant $participant
+     * @return Response
      */
     public function show(Participant $participant): Response
     {
@@ -61,6 +67,10 @@ class ParticipantController extends AbstractController
 
     /**
      * @Route("/{id}/edit", name="participant_edit", methods={"GET","POST"})
+     * @param Request $request
+     * @param Participant $participant
+     * @param UserPasswordEncoderInterface $encoder
+     * @return Response
      */
     public function edit(Request $request, Participant $participant, UserPasswordEncoderInterface $encoder): Response
     {
@@ -84,6 +94,9 @@ class ParticipantController extends AbstractController
 
     /**
      * @Route("/{id}", name="participant_delete", methods={"DELETE"})
+     * @param Request $request
+     * @param Participant $participant
+     * @return Response
      */
     public function delete(Request $request, Participant $participant): Response
     {

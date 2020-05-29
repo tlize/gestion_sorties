@@ -16,6 +16,9 @@ class GeneralController extends AbstractController
 {
     /**
      * @Route("/", name="default_accueil")
+     * @param SortieRepository $sortieRepository
+     * @param Request $request
+     * @return Response
      */
     public function accueil(SortieRepository $sortieRepository,Request $request): Response
     {

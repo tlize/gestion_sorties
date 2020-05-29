@@ -17,6 +17,8 @@ class VilleController extends AbstractController
 {
     /**
      * @Route("/", name="ville_index", methods={"GET"})
+     * @param VilleRepository $villeRepository
+     * @return Response
      */
     public function index(VilleRepository $villeRepository): Response
     {
@@ -27,6 +29,8 @@ class VilleController extends AbstractController
 
     /**
      * @Route("/new", name="ville_new", methods={"GET","POST"})
+     * @param Request $request
+     * @return Response
      */
     public function new(Request $request): Response
     {
@@ -50,6 +54,8 @@ class VilleController extends AbstractController
 
     /**
      * @Route("/{id}", name="ville_show", methods={"GET"})
+     * @param Ville $ville
+     * @return Response
      */
     public function show(Ville $ville): Response
     {
@@ -60,6 +66,9 @@ class VilleController extends AbstractController
 
     /**
      * @Route("/{id}/edit", name="ville_edit", methods={"GET","POST"})
+     * @param Request $request
+     * @param Ville $ville
+     * @return Response
      */
     public function edit(Request $request, Ville $ville): Response
     {
@@ -80,6 +89,9 @@ class VilleController extends AbstractController
 
     /**
      * @Route("/{id}", name="ville_delete", methods={"DELETE"})
+     * @param Request $request
+     * @param Ville $ville
+     * @return Response
      */
     public function delete(Request $request, Ville $ville): Response
     {

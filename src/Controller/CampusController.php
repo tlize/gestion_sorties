@@ -17,6 +17,8 @@ class CampusController extends AbstractController
 {
     /**
      * @Route("/", name="campus_index", methods={"GET"})
+     * @param CampusRepository $campusRepository
+     * @return Response
      */
     public function index(CampusRepository $campusRepository): Response
     {
@@ -27,6 +29,8 @@ class CampusController extends AbstractController
 
     /**
      * @Route("/new", name="campus_new", methods={"GET","POST"})
+     * @param Request $request
+     * @return Response
      */
     public function new(Request $request): Response
     {
@@ -50,6 +54,8 @@ class CampusController extends AbstractController
 
     /**
      * @Route("/{id}", name="campus_show", methods={"GET"})
+     * @param Campus $campu
+     * @return Response
      */
     public function show(Campus $campu): Response
     {
@@ -60,6 +66,9 @@ class CampusController extends AbstractController
 
     /**
      * @Route("/{id}/edit", name="campus_edit", methods={"GET","POST"})
+     * @param Request $request
+     * @param Campus $campu
+     * @return Response
      */
     public function edit(Request $request, Campus $campu): Response
     {
@@ -80,6 +89,9 @@ class CampusController extends AbstractController
 
     /**
      * @Route("/{id}", name="campus_delete", methods={"DELETE"})
+     * @param Request $request
+     * @param Campus $campu
+     * @return Response
      */
     public function delete(Request $request, Campus $campu): Response
     {
