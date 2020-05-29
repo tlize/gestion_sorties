@@ -13,6 +13,7 @@ use Doctrine\ORM\EntityManagerInterface;
 
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\JsonResponse;
+use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
@@ -24,6 +25,8 @@ class SortieController extends AbstractController
 {
     /**
      * @Route("/", name="sortie_index", methods={"GET"})
+     * @param SortieRepository $sortieRepository
+     * @return Response
      */
     public function index(SortieRepository $sortieRepository): Response
     {
@@ -34,6 +37,8 @@ class SortieController extends AbstractController
 
     /**
      * @Route("/new", name="sortie_new", methods={"GET","POST"})
+     * @param Request $request
+     * @return Response
      */
     public function new(Request $request): Response
     {
@@ -58,6 +63,9 @@ class SortieController extends AbstractController
 
     /**
      * @Route("/{id}", name="sortie_show", methods={"GET"}, requirements={"id": "\d+"})
+     * @param Sortie $sortie
+     * @param Participant $participant
+     * @return Response
      */
     public function show(Sortie $sortie, Participant $participant): Response
     {
@@ -69,6 +77,9 @@ class SortieController extends AbstractController
 
     /**
      * @Route("/{id}/edit", name="sortie_edit", methods={"GET","POST"}, requirements={"id": "\d+"})
+     * @param Request $request
+     * @param Sortie $sortie
+     * @return Response
      */
     public function edit(Request $request, Sortie $sortie): Response
     {
@@ -98,6 +109,9 @@ class SortieController extends AbstractController
 
     /**
      * @Route("/{id}", name="sortie_delete", methods={"DELETE"}, requirements={"id": "\d+"})
+     * @param Request $request
+     * @param Sortie $sortie
+     * @return Response
      */
     public function delete(Request $request, Sortie $sortie): Response
     {
@@ -112,15 +126,16 @@ class SortieController extends AbstractController
 
     /**
      * @Route("/{id}/register", name="sortie_registration", requirements={"id": "\d+"})
+     * @param Sortie $sortie
+     * @param EntityManagerInterface $em
+     * @return RedirectResponse
      */
-    public function registration($id, EntityManagerInterface $em)
+    public function registration(Sortie $sortie, EntityManagerInterface $em)
     {
         $userco = $this->getUser();
         $em = $this->getDoctrine()->getManager();
-        $sortieRepo = $em->getRepository(Sortie::class);
         $etatRepo = $em->getRepository(Etat::class);
         $etatCloture = $etatRepo->find(3);
-        $sortie = $sortieRepo->find($id);
         $dateActuelle =  new \DateTime();
 
         //Conditions pour pouvoir s\inscrire a une sortie
@@ -158,11 +173,13 @@ class SortieController extends AbstractController
 
     /**
      * @Route("/{id}/unregister", name="sortie_unregistration", requirements={"id": "\d+"})
+     * @param Sortie $sortie
+     * @param EntityManagerInterface $em
+     * @return RedirectResponse
      */
-    public function unregistration($id, EntityManagerInterface $em)
+    public function unregistration(Sortie $sortie, EntityManagerInterface $em)
     {
         $userco = $this->getUser();
-        $sortie = $this->getDoctrine()->getManager()->getRepository(Sortie::class)->find($id);
         $etatRepo = $em->getRepository(Etat::class);
         $etatOuvert = $etatRepo->find(2);
         $etatCloture = $etatRepo->find(3);
@@ -190,11 +207,14 @@ class SortieController extends AbstractController
 
     /**
      * @Route("/{id}/cancel", name="sortie_cancel", requirements={"id": "\d+"})
+     * @param Sortie $sortie
+     * @param EntityManagerInterface $em
+     * @param Request $request
+     * @return RedirectResponse|Response
      */
-    public function cancel($id, EntityManagerInterface $em, Request $request)
+    public function cancel(Sortie $sortie, EntityManagerInterface $em, Request $request)
     {
         $userco = $this->getUser();
-        $sortie = $this->getDoctrine()->getManager()->getRepository(Sortie::class)->find($id);
 
         if($userco != $sortie->getOrganisateur() or ($sortie->getEtat()->getId() != 2 && $sortie->getEtat()->getId() != 3) ){
             $this->addFlash('warning','Vous ne pouvez pas annuler cette sortie !');
