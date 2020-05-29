@@ -92,33 +92,32 @@
     </div>
     <br/>
     <div class="col-lg-4" >
+    {% if sortie.participants | length > 0 %}
+
+        <h4>Liste des participants</h4>
         <table class="table table-striped ">
 
-            {% if sortie.participants | length > 0 %}
-                <h4>Liste des participants</h4>
-            {% else %}
-                <h4>Aucun participant pour cette sortie</h4>
-            {% endif%}
-
             <thead>
-            <tr>
-                <th class="d-none d-md-block">Pseudo</th>
-                <th>Nom</th>
-            </tr>
+                <tr>
+                    <th class="d-none d-md-block">Pseudo</th>
+                    <th>Nom</th>
+                </tr>
             </thead>
             <tbody>
-            {% for participant in sortie.participants %}
-                {% if app.user.id == participant.id %}
-                    {% set inscrit = true %}
-                {% endif %}
+                {% for participant in sortie.participants %}
+                    {% if app.user.id == participant.id %}
+                        {% set inscrit = true %}
+                    {% endif %}
                 <tr>
                     <td class="d-none d-md-block"><a href="{{ path('participant_show',{'id': participant.id}) }}"> {{ participant.pseudo }}</a></td>
                     <td > {{ participant.prenom }} {{ participant.nom }}</td>
-
                 </tr>
-            {% endfor %}
+                {% endfor %}
             </tbody>
         </table>
+    {% else %}
+        <h4>Aucun participant pour cette sortie</h4>
+    {% endif%}
     </div>
     <div class="d-none d-md-block col-lg-4 mx-auto text-center">
         <a class="btn btn-secondary" href="{{ path('default_accueil') }}">Retour</a>
