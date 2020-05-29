@@ -9,6 +9,7 @@ use App\Entity\Sortie;
 use App\Form\SortieCancelType;
 use App\Form\SortieType;
 use App\Repository\SortieRepository;
+use DateTime;
 use Doctrine\ORM\EntityManagerInterface;
 
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -125,6 +126,20 @@ class SortieController extends AbstractController
     }
 
     /**
+     * @Route("/{id}/publish", name="sortie_publish", requirements={"id": "\d+"})
+     * @param Sortie $sortie
+     * @param EntityManagerInterface $em
+     * @return RedirectResponse
+     */
+    public function publish(Sortie $sortie, EntityManagerInterface $em){
+        $etat = $this->getDoctrine()->getManager()->getRepository('App:Etat')->find(2);
+        $sortie->setEtat($etat);
+        $em->flush();
+        $this->addFlash('success','La sortie a été publiée !');
+        return $this->redirectToRoute('default_accueil');
+    }
+
+    /**
      * @Route("/{id}/register", name="sortie_registration", requirements={"id": "\d+"})
      * @param Sortie $sortie
      * @param EntityManagerInterface $em
@@ -136,7 +151,7 @@ class SortieController extends AbstractController
         $em = $this->getDoctrine()->getManager();
         $etatRepo = $em->getRepository(Etat::class);
         $etatCloture = $etatRepo->find(3);
-        $dateActuelle =  new \DateTime();
+        $dateActuelle =  new DateTime();
 
         //Conditions pour pouvoir s\inscrire a une sortie
 
@@ -145,19 +160,22 @@ class SortieController extends AbstractController
         {
             $this->addFlash('warning', 'L\'état de la sortie ne permet pas de vous inscrire');
 
-        }elseif ($sortie->getNbInscriptionsMax() == $sortie->getParticipants()->count())
+        }
+        elseif ($sortie->getNbInscriptionsMax() == $sortie->getParticipants()->count())
         {
             $this->addFlash('warning', 'Le nombre maximum de participant à été atteint');
 
-        }elseif ($sortie->getParticipants()->contains($userco))
+        }
+        elseif ($sortie->getParticipants()->contains($userco))
         {
                $this->addFlash('warning','Vous êtes déjà inscrit à la sortie');
 
-        }elseif ($sortie->getDateLimiteInscription() < $dateActuelle)
+        }
+        elseif ($sortie->getDateLimiteInscription() < $dateActuelle)
         {
             $this->addFlash('warning', 'La période d\'inscription pour cette sortie est terminée' );
-
-        } else
+        }
+        else
         {
             $sortie->addParticipant($userco);
             $this->addFlash('success', 'Vous avez bien été inscrit à la sortie');
@@ -184,7 +202,7 @@ class SortieController extends AbstractController
         $etatOuvert = $etatRepo->find(2);
         $etatCloture = $etatRepo->find(3);
         $etatEnCours = $etatRepo->find(4);
-        $dateActuelle =  new \DateTime();
+        $dateActuelle =  new DateTime();
 
         if($sortie->getDateLimiteInscription() > $dateActuelle ){
             $sortie->setEtat($etatOuvert);
@@ -231,7 +249,6 @@ class SortieController extends AbstractController
             {
                 $sortie->setDescription('MOTIF D\'ANNULATION : ' . $sortie->getDescription() . '; DESCRIPTION ORIGINALE : ' . $originalDescription);
                 $etat = $this->getDoctrine()->getManager()->getRepository(Etat::class)->find(6);
-
                 $sortie->setEtat($etat);
                 $em->flush();
                 $this->addFlash('success', 'Sortie annulée !');
@@ -280,14 +297,17 @@ class SortieController extends AbstractController
             $etat = $this->getDoctrine()->getManager()->getRepository('App:Etat')->find(1);
             dump($etat);
             $sortie->setEtat($etat);
+            $this->addFlash('success', 'La sortie a été enregistrée !');
         }
         elseif ($request->get('submit') == 'Publier'){
             //Passe l'état à ouvert - publication
             $etat = $this->getDoctrine()->getManager()->getRepository('App:Etat')->find(2);
             $sortie->setEtat($etat);
+            $this->addFlash('success', 'La sortie a été publiée !');
         }
         elseif ($request->get('submit') == 'Supprimer la sortie'){
             $entityManager->remove($sortie);
+            $this->addFlash('success', 'La sortie a été supprimée !');
         }
         if($new){
             $entityManager->persist($sortie);
