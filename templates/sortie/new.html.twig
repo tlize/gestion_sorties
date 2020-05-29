@@ -1,19 +1,35 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}New Sortie{% endblock %}
+{% block title %}{{ parent() }}Créer une sortie{% endblock %}
 
 {% block body %}
-    <h1 class="d-none d-md-block">Créer une sortie</h1>
     <div class="d-none d-md-block">
-    {{ form_start(form) }}
-    {{ form_widget(form) }}
-    <input type="submit" class="btn btn-primary" name="submit" value="Enregistrer"></input>
-    <input type="submit" class="btn btn-success" name="submit" value="Publier"></input>
-    {{ form_end(form) }}
-
-    <a class="btn btn-secondary" href="{{ path('sortie_index') }}">Annuler</a>
+        <h1>Créer une sortie</h1>
+        <div class="row d-flex justify-content-center">
+            <div class="col-md-5 col-lg-4 mt-5">
+                {{ form_start(form) }}
+                {{ form_row(form.nom) }}
+                {{ form_row(form.date_heure_debut) }}
+                {{ form_row(form.date_limite_inscription) }}
+                {{ form_row(form.duree) }}
+                {{ form_row(form.nb_inscriptions_max) }}
+            </div>
+            <div class="col-md-5 col-lg-4 mt-5">
+                {{ form_row(form.description) }}
+                {{ form_row(form.campus) }}
+                {{ form_row(form.ville) }}
+                {{ form_row(form.lieu) }}
+                <div class="text-center mt-5">
+                    <a class="btn btn-secondary" href="{{ path('sortie_index') }}">Annuler</a>
+                    <input type="submit" class="btn btn-primary" name="submit" value="Enregistrer"></input>
+                    <input type="submit" class="btn btn-success" name="submit" value="Publier"></input>
+                </div>
+                {{ form_end(form) }}
+            </div>
+        </div>
     </div>
 {% endblock %}
+
 {% block javascripts %}
     <script src="{{ asset('js/app.js') }}"></script>
 {% endblock %}
