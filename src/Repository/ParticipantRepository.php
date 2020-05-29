@@ -4,6 +4,7 @@ namespace App\Repository;
 
 use App\Entity\Participant;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
+use Doctrine\ORM\Tools\Pagination\Paginator;
 use Doctrine\Persistence\ManagerRegistry;
 
 /**
@@ -19,9 +20,23 @@ class ParticipantRepository extends ServiceEntityRepository
         parent::__construct($registry, Participant::class);
     }
 
-    // /**
-    //  * @return Participant[] Returns an array of Participant objects
-    //  */
+    public function updateActif($actif)
+    {
+        $qb = $this->em->createQueryBuilder();
+        $q = $qb->update('App/Entity/Participant', 'p')
+
+            ->set('p.actif', '?1')
+
+            ->setParameter(1, $actif)
+
+            ->getQuery();
+        $p = $q->execute();
+   }
+
+
+   // /**
+   //  * @return Participant[] Returns an array of Participant objects
+   //  */
     /*
     public function findByExampleField($value)
     {

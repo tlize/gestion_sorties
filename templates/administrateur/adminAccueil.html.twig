@@ -1,16 +1,27 @@
 {% extends "base.html.twig" %}
 
-{% block title %} ACCUEIL ADMIN {% endblock %}
+{% block title %}{{ parent() }}Administration {% endblock %}
 
 {% block body %}
-    <h2>Gestion des sorties et participants</h2>
-    <ul>
-        <li class="nav-item"><a href="{{path('administrateur_addUser')}}" class="nav-link">Inscrire un utilisateur manuellement</a></li>
-        <li class="nav-item"><a href="#" class="nav-link">Inscrire un utilisateur par intégration de fichier</a></li>
-        <li class="nav-item"><a href="#" class="nav-link">Désactiver un participant</a></li>
-        <li class="nav-item"><a href="#" class="nav-link">Supprimer un participant</a></li>
-        <li class="nav-item"><a href="#" class="nav-link">Annuler une sortie</a></li>
-    </ul>
+    <h1>Panneau d'administration</h1>
+    <div class="flex-container">
+
+
+<ul>
+    <a href="{{path('administrateur_addUser')}}" class="btn btn-outline-primary btn-lg btn-block">Inscrire un utilisateur manuellement</a>
+    <a href="{{ path('administrateur_index') }}" class="btn btn-outline-primary btn-lg btn-block">Désactiver un participant</a>
+</ul>
+
+
+
+
+    </div>
+    <div class="container-flex">
+        <a class="btn btn-secondary" href="{{ path('default_accueil') }}">Retour</a>
+    </div>
+
+
+
 
 {% endblock %}
 

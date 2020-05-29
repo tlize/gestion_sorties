@@ -5,15 +5,16 @@ namespace App\Controller;
 use App\Entity\Participant;
 use App\Form\ImportParticipantCSVType;
 use App\Form\ParticipantAdminType;
+use App\Repository\ParticipantRepository;
 use Doctrine\ORM\EntityManagerInterface;
 
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\File\Exception\FileException;
 
 use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 use Symfony\Component\Routing\Annotation\Route;
-
 use Symfony\Component\Security\Core\Encoder\UserPasswordEncoderInterface;
 
 /**
@@ -65,6 +66,18 @@ class AdminController extends AbstractController
     }
 
     /**
+     * @Route("/admin/participant", name="administrateur_index", methods={"GET"})
+     * @param ParticipantRepository $participantRepository
+     * @return Response
+     */
+    public function index(ParticipantRepository $participantRepository): Response
+    {
+        return $this->render('participant/index.html.twig', [
+            'participants' => $participantRepository->findAll(),
+        ]);
+    }
+
+    /**
      *
      * @Route("/{id}/change_actif", name="administrateur_change_actif", requirements={"id": "\d+"})
      * @param EntityManagerInterface $entityManager
@@ -83,9 +96,8 @@ class AdminController extends AbstractController
 
         $this->addFlash('success', 'L\'etat de '.$participant->getPseudo().' a été changé !');
 
-        return $this->redirectToRoute('participant_index');
+        return $this->redirectToRoute('administrateur_index');
     }
-
 
 
     public function configureOptions(OptionsResolver $resolver)
