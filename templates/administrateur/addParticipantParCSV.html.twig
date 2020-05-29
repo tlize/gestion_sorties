@@ -1,0 +1,14 @@
+{% extends "base.html.twig" %}
+
+{% block title %}
+   Import participant
+{% endblock %}
+
+{% block body %}
+
+    {{ form_start(importFrom) }}
+         {{ form_widget(importFrom) }}
+    <button type="submit">Importer</button>
+    {{ form_end(importFrom) }}
+
+{% endblock %}

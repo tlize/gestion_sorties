@@ -3,12 +3,15 @@
 namespace App\Controller;
 
 use App\Entity\Participant;
+use App\Form\ImportParticipantCSVType;
 use App\Form\ParticipantAdminType;
 use Doctrine\ORM\EntityManagerInterface;
 
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
-use Symfony\Component\HttpFoundation\JsonResponse;
+use Symfony\Component\HttpFoundation\File\Exception\FileException;
+
 use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\OptionsResolver\OptionsResolver;
 use Symfony\Component\Routing\Annotation\Route;
 
 use Symfony\Component\Security\Core\Encoder\UserPasswordEncoderInterface;
@@ -41,8 +44,9 @@ class AdminController extends AbstractController
         $pForm = $this->createForm(ParticipantAdminType::class, $newParticipant);
         $pForm->handleRequest($request);
 
+
         if ($pForm->isSubmitted() && $pForm->isValid()) {
-            $entityManager = $this->getDoctrine()->getManager();
+
 
             $hashed = $encoder->encodePassword($newParticipant, $newParticipant->getPassword());
             $newParticipant->setPassword($hashed);
@@ -58,7 +62,7 @@ class AdminController extends AbstractController
             'newparticipant' => $newParticipant,
             'pForm' => $pForm->createView(),
         ]);
-        }
+    }
 
     /**
      *
@@ -84,6 +88,67 @@ class AdminController extends AbstractController
 
 
 
+    public function configureOptions(OptionsResolver $resolver)
+    {
+        $resolver->setDefaults([
+            'data_class' => Participant::class,
+        ]);
+    }
+    /**
+     * @Route("/import/csv", name="import_csv")
+     */
+    public function importUsers(Request $request, UserPasswordEncoderInterface $passwordEncoder, EntityManagerInterface $em)
+    {
+        $importFrom = $this->createForm( ImportParticipantCSVType::class);
+        $importFrom->handleRequest($request);
+        if($importFrom->isSubmitted() && $importFrom->isValid() ){
+            $fichierimport = $importFrom->get('fichier')->getData();
 
+                if($fichierimport){
+                    $originalFilename = pathinfo($fichierimport->getClientOriginalName(), PATHINFO_FILENAME);
 
+                    $safeFilename = transliterator_transliterate('Any-Latin; Latin-ASCII;[^A-Za-z0-9_] remove; lower()',$originalFilename);
+                    $newFilename = $safeFilename.'-'.uniqid().'.'.$fichierimport->guessExtension();
+
+                    try{
+                        $fichierimport->move(
+                            $this->getParameter('fichier_directory'),
+                            $newFilename
+                        );
+                    } catch (FileException $e){
+                        $this->addFlash("danger", "Impossible d'enregistrer l'image");
+                        return $this->redirectToRoute('administrateur_accueilAdmin');
+                    }
+                }
+        }
+        return $this->render('administrateur/addParticipantParCSV.html.twig', [
+            'importFrom' =>$importFrom->createView()
+        ]);
+    }
+//    private function getData(String $newFilename, UserPasswordEncoderInterface $passwordEncoder, EntityManagerInterface $em)
+//    {
+//        $reader = new ods();
+//        $spreadSheet = $reader->load($this->getParameter('kernel.root.dir'). '/public/uploads/ParticipantAjouts/'. $newFilename);
+//            $result = $reader->fetchAssoc();
+//            for ( $i = 2; $i < 100; $i++) {
+//                $debut - $spreadSheet->getActiveSheet()->getcellByColumAndRow(1,$i)->getValue();
+//                $user = new Participant();
+//                if(is_null($debut)){
+//                    $i =100;
+//                }else {
+//                    $user->setPseudo($spreadSheet->getActiveSheet()->getcellByColumAndRow(1, $i)->getValue());
+//                        ->setPseudo
+//                        ->setPrenom
+//                        ->setTelephone
+//                        ->setMail
+//                        ->setDealer($row['mot_de_passe'])
+//                        ->setDealer($row['mot_de_passe'])
+//                        ->setAdministrateur($row['administrateur'])
+//                        ->setActif($row['actif']);
+//                    $em->persist($user);
+//                }
+//            }
+//            $em->flush();
+//            $this->addFlash('success', 'Bien ajouté avec succès');
+//    }
 }
