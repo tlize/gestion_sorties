@@ -1,59 +1,59 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Sortie{% endblock %}
+{% block title %}{{ parent() }}Sortie{% endblock %}
 
 {% block body %}
     {%  set inscrit = false %}
     <h1>Sortie</h1>
-<div class="d-none d-md-block">
-    <div class="row" style="margin-top: 25px">
-        <div class=" "></div>
-        <div class="col-lg-3 col-md-4"  >
-            <p class="font-weight-bold text-nowrap">Nom de la sortie :</p>
-            <p class="font-weight-bold text-nowrap">Date et heure de la sortie : </p>
-            <p class="font-weight-bold text-nowrap">Date limite d'inscription : </p>
-            <p class="font-weight-bold">Nombre de places : </p>
-            <p class="font-weight-bold">Durée : </p>
-            <p class="font-weight-bold">Description et infos : </p>
-        </div>
-        <div class="col-lg-3 col-md-6" >
-            <p> {{ sortie.nom }}</p>
-            <p> {{ sortie.dateHeureDebut|date('d-m-Y H:i:s') }}</p>
-            <p>{{ sortie.dateLimiteInscription ? sortie.dateLimiteInscription|date('d-m-Y ') }}</p>
-            <p> {{ sortie.nbInscriptionsMax }}</p>
-            <p> {{ sortie.duree }} minutes</p>
-            <p> {{ sortie.description }}</p>
-        </div>
-        <div class="col-lg-1  "></div>
-        <div class="col-lg-2 col-md-4">
-            <p class="font-weight-bold">Campus : </p>
-            <p class="font-weight-bold">Lieu : </p>
-            <p class="font-weight-bold">Rue : </p>
-            <p class="font-weight-bold text-nowrap">Code postal : </p>
-            <p class="font-weight-bold">Ville : </p>
-            <p class="font-weight-bold">Latitude : </p>
-            <p class="font-weight-bold">Longitude : </p>
-        </div>
-        <div class="col-lg-2 col-md-8">
-            <p> {{ sortie.campus.nom }}</p>
-            <p class="text-nowrap"> {{ sortie.lieu.nom }}</p>
-            <p> {{ sortie.lieu.rue }}</p>
-            <p> {{ sortie.lieu.ville.codePostal }}</p>
-            <p> {{ sortie.lieu.ville.nom }}</p>
-            <p> {% if sortie.lieu.latitude | length == 0 %}
-                    {{  " Aucune info"      }}
-                {% endif %}
-                {{ sortie.lieu.latitude }}</p>
-            <p> {% if sortie.lieu.longitude | length == 0 %}
-                    {{  " Aucune info"      }}
-                {% endif %}
-                {{ sortie.lieu.longitude}} </p>
+    <div class="d-none d-md-block">
+        <div class="row mt-2">
+            <div class="col-lg-1"></div>
+            <div class="col-lg-3 col-md-4"  >
+                <p class="font-weight-bold text-nowrap">Nom de la sortie :</p>
+                <p class="font-weight-bold text-nowrap">Date et heure de la sortie : </p>
+                <p class="font-weight-bold text-nowrap">Date limite d'inscription : </p>
+                <p class="font-weight-bold">Nombre de places : </p>
+                <p class="font-weight-bold">Durée : </p>
+                <p class="font-weight-bold">Description et infos : </p>
+            </div>
+            <div class="col-lg-3 col-md-6" >
+                <p> {{ sortie.nom }}</p>
+                <p> {{ sortie.dateHeureDebut|date('d-m-Y H:i:s') }}</p>
+                <p>{{ sortie.dateLimiteInscription ? sortie.dateLimiteInscription|date('d-m-Y ') }}</p>
+                <p> {{ sortie.nbInscriptionsMax }}</p>
+                <p> {{ sortie.duree }} minutes</p>
+                <p> {{ sortie.description }}</p>
+            </div>
+            <div class="col-lg-1"></div>
+            <div class="col-lg-2 col-md-4">
+                <p class="font-weight-bold">Campus : </p>
+                <p class="font-weight-bold">Lieu : </p>
+                <p class="font-weight-bold">Rue : </p>
+                <p class="font-weight-bold text-nowrap">Code postal : </p>
+                <p class="font-weight-bold">Ville : </p>
+                <p class="font-weight-bold">Latitude : </p>
+                <p class="font-weight-bold">Longitude : </p>
+            </div>
+            <div class="col-lg-2 col-md-8">
+                <p> {{ sortie.campus.nom }}</p>
+                <p class="text-nowrap"> {{ sortie.lieu.nom }}</p>
+                <p> {{ sortie.lieu.rue }}</p>
+                <p> {{ sortie.lieu.ville.codePostal }}</p>
+                <p> {{ sortie.lieu.ville.nom }}</p>
+                <p> {% if sortie.lieu.latitude | length == 0 %}
+                        {{  " Aucune info"      }}
+                    {% endif %}
+                    {{ sortie.lieu.latitude }}</p>
+                <p> {% if sortie.lieu.longitude | length == 0 %}
+                        {{  " Aucune info"      }}
+                    {% endif %}
+                    {{ sortie.lieu.longitude}} </p>
+            </div>
         </div>
     </div>
-</div>
-{#Code pour mobile#}
+    {#Code pour mobile#}
     <div class="d-block d-md-none">
-        <div class="row" style="margin-top: 25px">
+        <div class="row mt-3">
             <div class="col-5"  >
                 <p class="font-weight-bold">Nom :</p>
                 <p class="font-weight-bold">Date et heure : </p>
@@ -80,7 +80,7 @@
                     {% endif %}
                     {{ sortie.lieu.latitude }}</p>
                 <p> {% if sortie.lieu.longitude | length == 0 %}
-                     {{  " Aucune info"      }}
+                        {{  " Aucune info"      }}
                     {% endif %}
                     {{ sortie.lieu.longitude}} </p>
                 <p> {{ sortie.dateLimiteInscription ? sortie.dateLimiteInscription|date('d-m-Y ') }}</p>
@@ -91,20 +91,20 @@
         </div>
     </div>
     <br/>
-        <div class="col-lg-4 mx-auto" >
-    <table class="table table-striped ">
+    <div class="col-lg-4" >
+        <table class="table table-striped ">
 
-        {% if sortie.participants | length > 0 %}
-            <h4>Liste des participants</h4>
-        {% else %}
-            <h4>Aucun participant pour cette sortie</h4>
-        {% endif%}
+            {% if sortie.participants | length > 0 %}
+                <h4>Liste des participants</h4>
+            {% else %}
+                <h4>Aucun participant pour cette sortie</h4>
+            {% endif%}
 
             <thead>
-                <tr>
-                    <th class="d-none d-md-block">Pseudo</th>
-                    <th>Nom</th>
-                </tr>
+            <tr>
+                <th class="d-none d-md-block">Pseudo</th>
+                <th>Nom</th>
+            </tr>
             </thead>
             <tbody>
             {% for participant in sortie.participants %}
@@ -116,22 +116,21 @@
                     <td > {{ participant.prenom }} {{ participant.nom }}</td>
 
                 </tr>
-                {% endfor %}
+            {% endfor %}
             </tbody>
-
-    </table>
+        </table>
     </div>
     <div class="d-none d-md-block col-lg-4 mx-auto text-center">
-    {% if app.user.id == sortie.organisateur.id %}
-        {% if sortie.etat.id == 2 %}
-        <a class="btn btn-primary" href="{{ path('sortie_edit', {'id': sortie.id}) }}">Modifier la sortie</a>
-        <a class="btn btn-primary" href="{{ path('sortie_cancel', {'id': sortie.id}) }}">Annuler la sortie</a>
+        <a class="btn btn-secondary" href="{{ path('default_accueil') }}">Retour</a>
+        {% if app.user.id == sortie.organisateur.id %}
+            {% if sortie.etat.id == 2 %}
+                <a class="btn btn-primary" href="{{ path('sortie_edit', {'id': sortie.id}) }}">Modifier la sortie</a>
+                <a class="btn btn-primary" href="{{ path('sortie_cancel', {'id': sortie.id}) }}">Annuler la sortie</a>
+            {% endif %}
+        {% elseif inscrit %}
+            <a class="btn btn-primary" href="{{ path('sortie_unregistration', {'id': sortie.id})  }}">Se désister</a>
+        {% else %}
+            <a class="btn btn-primary" href="{{ path('sortie_registration', {'id': sortie.id})  }}">S'inscrire</a>
         {% endif %}
-    {% elseif inscrit %}
-        <a class="btn btn-primary" href="{{ path('sortie_unregistration', {'id': sortie.id})  }}">Se désister</a>
-    {% else %}
-        <a class="btn btn-primary" href="{{ path('sortie_registration', {'id': sortie.id})  }}">S'inscrire</a>
-    {% endif %}
-    <a class="btn btn-secondary" href="{{ path('default_accueil') }}">Retour</a>
     </div>
 {% endblock %}
