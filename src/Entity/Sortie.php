@@ -35,6 +35,7 @@ class Sortie
 
     /**
      * @ORM\Column(type="integer", nullable=true)
+     * @Assert\GreaterThan(value=0, message="La durée doit être supérieure à 0")
      */
     private $duree;
 
@@ -48,6 +49,7 @@ class Sortie
 
     /**
      * @ORM\Column(type="integer")
+     * @Assert\GreaterThan(value=0, message="La nombre de participant doit être supérieur à 0")
      */
     private $nb_inscriptions_max;
 

@@ -6,45 +6,28 @@
     {%  set inscrit = false %}
     <h1>Sortie</h1>
     <div class="d-none d-md-block">
-        <div class="row mt-2">
-            <div class="col-lg-1"></div>
-            <div class="col-lg-3 col-md-4"  >
-                <p class="font-weight-bold text-nowrap">Nom de la sortie :</p>
-                <p class="font-weight-bold text-nowrap">Date et heure de la sortie : </p>
-                <p class="font-weight-bold text-nowrap">Date limite d'inscription : </p>
-                <p class="font-weight-bold">Nombre de places : </p>
-                <p class="font-weight-bold">Durée : </p>
-                <p class="font-weight-bold">Description et infos : </p>
+        <div class="row mt-2 d-flex justify-content-center">
+            <div class="col-md-5"  >
+                <p><span class="font-weight-bold text-nowrap">Nom de la sortie : </span>{{ sortie.nom }}</p>
+                <p><span class="font-weight-bold text-nowrap">Date et heure de la sortie : </span>{{ sortie.dateHeureDebut|date('d-m-Y H:i:s') }}</p>
+                <p><span class="font-weight-bold text-nowrap">Date limite d'inscription : </span>{{ sortie.dateLimiteInscription ? sortie.dateLimiteInscription|date('d-m-Y ') }}</p>
+                <p><span class="font-weight-bold text-nowrap">Nombre de places : </span>{{ sortie.nbInscriptionsMax }}</p>
+                <p><span class="font-weight-bold text-nowrap">Durée : </span>{{ sortie.duree }} minutes</p>
+                <p><span class="font-weight-bold text-nowrap">Description et infos : </span>{{ sortie.description }}</p>
             </div>
-            <div class="col-lg-3 col-md-6" >
-                <p> {{ sortie.nom }}</p>
-                <p> {{ sortie.dateHeureDebut|date('d-m-Y H:i:s') }}</p>
-                <p>{{ sortie.dateLimiteInscription ? sortie.dateLimiteInscription|date('d-m-Y ') }}</p>
-                <p> {{ sortie.nbInscriptionsMax }}</p>
-                <p> {{ sortie.duree }} minutes</p>
-                <p> {{ sortie.description }}</p>
-            </div>
-            <div class="col-lg-1"></div>
-            <div class="col-lg-2 col-md-4">
-                <p class="font-weight-bold">Campus : </p>
-                <p class="font-weight-bold">Lieu : </p>
-                <p class="font-weight-bold">Rue : </p>
-                <p class="font-weight-bold text-nowrap">Code postal : </p>
-                <p class="font-weight-bold">Ville : </p>
-                <p class="font-weight-bold">Latitude : </p>
-                <p class="font-weight-bold">Longitude : </p>
-            </div>
-            <div class="col-lg-2 col-md-8">
-                <p> {{ sortie.campus.nom }}</p>
-                <p class="text-nowrap"> {{ sortie.lieu.nom }}</p>
-                <p> {{ sortie.lieu.rue }}</p>
-                <p> {{ sortie.lieu.ville.codePostal }}</p>
-                <p> {{ sortie.lieu.ville.nom }}</p>
-                <p> {% if sortie.lieu.latitude | length == 0 %}
+            <div class="col-md-5">
+                <p><span class="font-weight-bold text-nowrap">Campus : </span>{{ sortie.campus.nom }}</p>
+                <p><span class="font-weight-bold text-nowrap">Lieu :  </span>{{ sortie.lieu.nom }}</p>
+                <p><span class="font-weight-bold text-nowrap">Rue : </span>{{ sortie.lieu.rue }}</p>
+                <p><span class="font-weight-bold text-nowrap">Code postal : </span>{{ sortie.lieu.ville.codePostal }}</p>
+                <p><span class="font-weight-bold text-nowrap">Ville : </span>{{ sortie.lieu.ville.nom }}</p>
+                <p><span class="font-weight-bold text-nowrap">Latitude : </span>
+                    {% if sortie.lieu.latitude | length == 0 %}
                         {{  " Aucune info"      }}
                     {% endif %}
                     {{ sortie.lieu.latitude }}</p>
-                <p> {% if sortie.lieu.longitude | length == 0 %}
+                <p><span class="font-weight-bold text-nowrap">Longitude : </span>
+                    {% if sortie.lieu.longitude | length == 0 %}
                         {{  " Aucune info"      }}
                     {% endif %}
                     {{ sortie.lieu.longitude}} </p>
@@ -54,39 +37,27 @@
     {#Code pour mobile#}
     <div class="d-block d-md-none">
         <div class="row mt-3">
-            <div class="col-5"  >
-                <p class="font-weight-bold">Nom :</p>
-                <p class="font-weight-bold">Date et heure : </p>
-                <p class="font-weight-bold">Ville : </p>
-                <p class="font-weight-bold">Lieu : </p>
-                <p class="font-weight-bold">Rue : </p>
-                <p class="font-weight-bold text-nowrap">Code postal  : </p>
-                <p class="font-weight-bold">Latitude : </p>
-                <p class="font-weight-bold">Longitude : </p>
-                <p class="font-weight-bold">Clôture : </p>
-                <p class="font-weight-bold text-nowrap">Nombre de places : </p>
-                <p class="font-weight-bold">Durée : </p>
-                <p class="font-weight-bold text-nowrap">Description et infos : </p>
-            </div>
-            <div class="col-6" >
-                <p class="text-nowrap"> {{ sortie.nom }}</p>
-                <p> {{ sortie.dateHeureDebut|date('d-m-Y H:i:s') }}</p>
-                <p class="text-nowrap"> {{ sortie.lieu.ville.nom }}</p>
-                <p class="text-nowrap"> {{ sortie.lieu.nom }}</p>
-                <p> {{ sortie.lieu.rue }}</p>
-                <p> {{ sortie.lieu.ville.codePostal }}</p>
-                <p> {% if sortie.lieu.latitude | length == 0 %}
+            <div class="col-12"  >
+                <p><span class="font-weight-bold text-nowrap">Nom : </span>{{ sortie.nom }}</p>
+                <p><span class="font-weight-bold text-nowrap">Date et heure : </span>{{ sortie.dateHeureDebut|date('d-m-Y H:i:s') }}</p>
+                <p><span class="font-weight-bold text-nowrap">Ville: </span>{{ sortie.lieu.ville.nom }}</p>
+                <p><span class="font-weight-bold text-nowrap">Lieu : </span>{{ sortie.lieu.nom }}</p>
+                <p><span class="font-weight-bold text-nowrap">Rue : </span>{{ sortie.lieu.rue }}</p>
+                <p><span class="font-weight-bold text-nowrap">Code postal : </span>{{ sortie.lieu.ville.codePostal }}</p>
+                <p><span class="font-weight-bold text-nowrap">Latitude : </span>
+                    {% if sortie.lieu.latitude | length == 0 %}
                         {{  " Aucune info"      }}
                     {% endif %}
                     {{ sortie.lieu.latitude }}</p>
-                <p> {% if sortie.lieu.longitude | length == 0 %}
+                <p><span class="font-weight-bold text-nowrap">Longitude : </span>
+                    {% if sortie.lieu.longitude | length == 0 %}
                         {{  " Aucune info"      }}
                     {% endif %}
-                    {{ sortie.lieu.longitude}} </p>
-                <p> {{ sortie.dateLimiteInscription ? sortie.dateLimiteInscription|date('d-m-Y ') }}</p>
-                <p> {{ sortie.nbInscriptionsMax }}</p>
-                <p> {{ sortie.duree }} minutes</p>
-                <p> {{ sortie.description }}</p>
+                    {{ sortie.lieu.longitude}}</p>
+                <p><span class="font-weight-bold text-nowrap">Clôture : </span>{{ sortie.dateLimiteInscription ? sortie.dateLimiteInscription|date('d-m-Y ') }}</p>
+                <p><span class="font-weight-bold text-nowrap">Nombre de places : </span>{{ sortie.nbInscriptionsMax }}</p>
+                <p><span class="font-weight-bold text-nowrap">Durée : </span>{{ sortie.duree }} minutes</p>
+                <p><span class="font-weight-bold text-nowrap">Description et infos : </span>{{ sortie.description }}</p>
             </div>
         </div>
     </div>

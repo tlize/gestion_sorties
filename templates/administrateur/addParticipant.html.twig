@@ -1,47 +1,35 @@
 {% extends "base.html.twig" %}
 
-{% block title %}
-        ADD USER
-{% endblock %}
+{% block title %}{{parent()}}Ajouter un utilisateur{% endblock %}
 
 {% block body %}
+    <div class="d-none d-md-block">
+        <h1>Ajouter un participant</h1>
+        <div class="row mt-5">
+            <div class="col-md-2"></div>
+            <div class="col-md-4">
+                {{ form_start(pForm) }}
 
-
-    <div style="margin-top: 5px " xmlns="http://www.w3.org/1999/html">
-
-
-    <h1>Ajouter un participant</h1>
-    <br/><br/>
-    <div class="row">
-        <div class="col-lg-2"></div>
-        <div class="col-lg-4">
-            {{ form_start(pForm) }}
-
-            {{ form_row(pForm.pseudo) }}
-            {{ form_row(pForm.prenom) }}
-            {{ form_row(pForm.nom) }}
-            {{ form_row(pForm.campus) }}
-            {{ form_row(pForm.administrateur) }}
-            {{ form_row(pForm.actif) }}
-        </div>
-        <div class="col-lg-4">
-            {{ form_row(pForm.telephone) }}
-            {{ form_row(pForm.mail) }}
-            {{ form_row(pForm.mot_de_passe) }}
-
-
-
-        </div>
-
-            <div class="col-lg-3"></div>
-    <div class="col-lg-2"></div>
-             <div class="col-lg-1">
-                 <a class="btn btn-secondary" href="{{ path('administrateur_accueilAdmin') }}">Retour</a>
+                {{ form_row(pForm.pseudo) }}
+                {{ form_row(pForm.prenom) }}
+                {{ form_row(pForm.nom) }}
+                {{ form_row(pForm.campus) }}
+                {{ form_row(pForm.administrateur) }}
+                {{ form_row(pForm.actif) }}
             </div>
-            <div class="col-lg-3">
-                <input type="submit" class="btn btn-primary " value="Enregistrer">
+            <div class="col-md-4">
+                {{ form_row(pForm.telephone) }}
+                {{ form_row(pForm.mail) }}
+                {{ form_row(pForm.mot_de_passe) }}
             </div>
-
+            <div class="d-flex col-md-12 justify-content-center">
+                <div class="mr-4">
+                     <a class="btn btn-secondary" href="{{ path('administrateur_accueilAdmin') }}">Retour</a>
+                </div>
+                <div >
+                    <input type="submit" class="btn btn-primary " value="Enregistrer">
+                </div>
                  {{ form_end(pForm) }}
-
+            </div>
+        </div>
 {% endblock %}

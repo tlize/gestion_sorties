@@ -40,11 +40,11 @@
             </tr>
         {% else %}
             <tr>
-                <td colspan="9">no records found</td>
+                <td colspan="9">Aucun participant trouvé</td>
             </tr>
         {% endfor %}
         </tbody>
     </table>
 
-    <a href="{{ path('participant_new') }}">Create new</a>
+    <a class="btn btn-secondary" href="{{ path('administrateur_accueilAdmin') }}">Retour</a>
 {% endblock %}

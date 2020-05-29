@@ -16,6 +16,10 @@ main h1{
     text-align: center;
 }
 
+li {
+    list-style: none;
+}
+
 footer{
     width: 100%;
     height: 60px;
@@ -67,16 +71,4 @@ footer div{
     float: left;
 }
 
-.flex-container {
-    display: flex;
-    height: 300px;
-    justify-content: center;
-    align-items: center;
-    align-content: space-around;
 
-}
-
-.container-flex {
-    display: flex;
-    justify-content: center;
-}

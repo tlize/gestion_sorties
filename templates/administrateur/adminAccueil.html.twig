@@ -3,23 +3,18 @@
 {% block title %}{{ parent() }}Administration {% endblock %}
 
 {% block body %}
-    <h1>Panneau d'administration</h1>
-    <div class="flex-container">
-
-
-<ul>
-    <a href="{{path('administrateur_addUser')}}" class="btn btn-outline-primary btn-lg btn-block">Inscrire un utilisateur manuellement</a>
-    <a href="{{ path('administrateur_index') }}" class="btn btn-outline-primary btn-lg btn-block">Désactiver un participant</a>
-</ul>
-
-
-
-
+    <div class="d-none d-md-block">
+        <h1>Panneau d'administration</h1>
+        <div class="d-flex  justify-content-center mt-4">
+            <ul>
+                <li class="mb-4"><a href="{{path('administrateur_addUser')}}" class="btn btn-outline-primary btn-lg btn-block">Inscrire un utilisateur manuellement</a></li>
+                <li><a href="{{ path('administrateur_index') }}" class="btn btn-outline-primary btn-lg btn-block">Désactiver un participant</a></li>
+            </ul>
+        </div>
+        <div class="d-flex  justify-content-center mt-2">
+            <a class="btn btn-secondary" href="{{ path('default_accueil') }}">Retour</a>
+        </div>
     </div>
-    <div class="container-flex">
-        <a class="btn btn-secondary" href="{{ path('default_accueil') }}">Retour</a>
-    </div>
-
 
 
 
