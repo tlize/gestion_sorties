@@ -89,27 +89,27 @@
                                 <td class="filterable-cell" >
                                     {% if sortie.etat.id != 1 %}
                                         <a href="{{ path('sortie_show', {'id': sortie.id}) }}">
-                                            Afficher</a>
+                                            Afficher</a><br>
                                     {% endif %}
 
                                     {% if sortie.etat.id == 1 and sortie.organisateur.id == app.user.id %}
                                         <a href="{{ path('sortie_edit', {'id': sortie.id}) }}">
-                                            Modifier</a>
+                                            Modifier</a><br>
                                     {% endif %}
 
                                     {% if  sortie.etat.id == 1 and sortie.organisateur.id == app.user.id %}
                                         <a href="{{ path('sortie_publish', {'id': sortie.id}) }}">
-                                            Publier</a>
+                                            Publier</a><br>
                                     {% endif %}
 
                                     {% if (sortie.etat.id == 2 or sortie.etat.id == 3) and inscrit == true %}
-                                        <a href="{{ path('sortie_unregistration', {'id': sortie.id}) }}">
-                                            Se désister</a>
+                                       <a href="{{ path('sortie_unregistration', {'id': sortie.id}) }}">
+                                            Se désister</a><br>
                                     {% endif %}
 
                                     {% if sortie.etat.id == 2 and inscrit == false and sortie.organisateur.id != app.user.id %}<a
                                         href="{{ path('sortie_registration', {'id': sortie.id}) }}">
-                                            S'inscrire</a>
+                                            S'inscrire</a><br>
                                     {% endif %}
                                     {% if (sortie.etat.id == 2 or sortie.etat.id == 3) and sortie.organisateur.id == app.user.id  %}<a
                                         href="{{ path('sortie_cancel', {'id': sortie.id}) }}">
