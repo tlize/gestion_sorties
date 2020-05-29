@@ -1,13 +1,13 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Sortie{% endblock %}
+{% block title %}{{ parent() }}Sortie{% endblock %}
 
 {% block body %}
     {%  set inscrit = false %}
     <h1>Sortie</h1>
 <div class="d-none d-md-block">
-    <div class="row" style="margin-top: 25px">
-        <div class=" "></div>
+    <div class="row mt-2">
+        <div class="col-lg-1"></div>
         <div class="col-lg-3 col-md-4"  >
             <p class="font-weight-bold text-nowrap">Nom de la sortie :</p>
             <p class="font-weight-bold text-nowrap">Date et heure de la sortie : </p>
@@ -24,7 +24,7 @@
             <p> {{ sortie.duree }} minutes</p>
             <p> {{ sortie.description }}</p>
         </div>
-        <div class="col-lg-1  "></div>
+        <div class="col-lg-1"></div>
         <div class="col-lg-2 col-md-4">
             <p class="font-weight-bold">Campus : </p>
             <p class="font-weight-bold">Lieu : </p>
@@ -53,7 +53,7 @@
 </div>
 {#Code pour mobile#}
     <div class="d-block d-md-none">
-        <div class="row" style="margin-top: 25px">
+        <div class="row mt-3">
             <div class="col-5"  >
                 <p class="font-weight-bold">Nom :</p>
                 <p class="font-weight-bold">Date et heure : </p>
@@ -91,37 +91,37 @@
         </div>
     </div>
     <br/>
-        <div class="col-lg-4 mx-auto" >
-    <table class="table table-striped ">
+    <div class="col-lg-4" >
+        <table class="table table-striped ">
 
-        {% if sortie.participants | length > 0 %}
-            <h4>Liste des participants</h4>
-        {% else %}
-            <h4>Aucun participant pour cette sortie</h4>
-        {% endif%}
+            {% if sortie.participants | length > 0 %}
+                <h4>Liste des participants</h4>
+            {% else %}
+                <h4>Aucun participant pour cette sortie</h4>
+            {% endif%}
 
-            <thead>
-                <tr>
-                    <th class="d-none d-md-block">Pseudo</th>
-                    <th>Nom</th>
-                </tr>
-            </thead>
-            <tbody>
-            {% for participant in sortie.participants %}
-                {% if app.user.id == participant.id %}
-                    {% set inscrit = true %}
-                {% endif %}
-                <tr>
-                    <td class="d-none d-md-block"><a href="{{ path('participant_show',{'id': participant.id}) }}"> {{ participant.pseudo }}</a></td>
-                    <td > {{ participant.prenom }} {{ participant.nom }}</td>
+                <thead>
+                    <tr>
+                        <th class="d-none d-md-block">Pseudo</th>
+                        <th>Nom</th>
+                    </tr>
+                </thead>
+                <tbody>
+                {% for participant in sortie.participants %}
+                    {% if app.user.id == participant.id %}
+                        {% set inscrit = true %}
+                    {% endif %}
+                    <tr>
+                        <td class="d-none d-md-block"><a href="{{ path('participant_show',{'id': participant.id}) }}"> {{ participant.pseudo }}</a></td>
+                        <td > {{ participant.prenom }} {{ participant.nom }}</td>
 
-                </tr>
-                {% endfor %}
-            </tbody>
-
-    </table>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+        </table>
     </div>
     <div class="d-none d-md-block col-lg-4 mx-auto text-center">
+        <a class="btn btn-secondary" href="{{ path('default_accueil') }}">Retour</a>
     {% if app.user.id == sortie.organisateur.id %}
         {% if sortie.etat.id == 2 %}
         <a class="btn btn-primary" href="{{ path('sortie_edit', {'id': sortie.id}) }}">Modifier la sortie</a>
@@ -132,6 +132,5 @@
     {% else %}
         <a class="btn btn-primary" href="{{ path('sortie_registration', {'id': sortie.id})  }}">S'inscrire</a>
     {% endif %}
-    <a class="btn btn-secondary" href="{{ path('default_accueil') }}">Retour</a>
     </div>
 {% endblock %}
