@@ -72,7 +72,7 @@ class ParticipantController extends AbstractController
             $hashed = $encoder->encodePassword($participant, $participant->getPassword());
             $participant->setPassword($hashed);
             $this->getDoctrine()->getManager()->flush();
-
+            $this->addFlash('success','Profil modifié !');
             return $this->redirectToRoute('default_accueil');
         }
 

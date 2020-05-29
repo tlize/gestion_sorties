@@ -2,36 +2,37 @@
 <html lang="fr">
 <head>
     <meta charset="UTF-8" >
-    <title>{% block title %}Gestion des Sorties{% endblock %}</title>
+    <title>{% block title %}ENI-Sortir.com | {% endblock %}</title>
     <link rel="icon" href="{{ asset('img/pint-of-beer.png') }}">
     <link rel="stylesheet" href="{{ asset('css/bootstrap.min.css') }}">
     <link rel="stylesheet" href="{{ asset('css/app.css') }}">
 </head>
 <body>
     <nav class="navbar fixed-top navbar-expand-lg navbar-dark bg-dark ">
+        <div class="justify-content-start d-flex">
+            <a class="navbar-brand" href="{{ path('default_accueil') }}"><img src="{{ asset('img/pint-of-beer.png') }}" height="40px" alt="un beau logo"></a>
+            <h1>ENI - Sortir.com</h1>
+        </div>
+        <button class="navbar-toggler  d-none d-md-block d-lg-none" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon "></span>
+        </button>
+        <div class=" justify-content-end collapse navbar-collapse " id="navbarSupportedContent">
+            <ul class="navbar-nav mr-0">
 
-                <a class="navbar-brand" href="{{ path('default_accueil') }}"><img src="{{ asset('img/pint-of-beer.png') }}" height="40px" alt="un beau logo"></a>
-
-            <button class="navbar-toggler  d-none d-md-block d-lg-none" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
-                <span class="navbar-toggler-icon "></span>
-            </button>
-            <div class=" justify-content-end collapse navbar-collapse " id="navbarSupportedContent">
-                <ul class="navbar-nav mr-0">
-
-                    <!--<li class="nav-item"><a href="{{ path('ville_index') }}" class="nav-link">Villes</a></li>
-                    <li class="nav-item"><a href="{{ path('campus_index') }}" class="nav-link">Campus</a></li>-->
-                    {% if (app.user and app.user.administrateur == 1) %}
-                        <li class="nav-item"><a href="{{ path('administrateur_accueilAdmin')}}" class="nav-link" >Administrateur</a></li>
-                    {% endif %}
-                    {% if is_granted('IS_AUTHENTICATED_REMEMBERED') %}
-                        <li class="nav-item"><a href="{{path('default_accueil')}}" class="nav-link">Accueil</a></li>
-                        <li class="nav-item"><a href="{{ path('participant_edit', {'id': app.user.id}) }}" class="nav-link">Mon Profil</a></li>
-                        <li class="nav-item"><a href="{{path('app_logout')}}" class="nav-link">Se Déconnecter</a></li>
-                    {% else %}
-                        <li class="nav-item"><a href="{{ path('app_login') }}" class="nav-link">Connexion</a></li>
-                    {% endif %}
-                </ul>
-            </div>
+                <!--<li class="nav-item"><a href="{{ path('ville_index') }}" class="nav-link">Villes</a></li>
+                <li class="nav-item"><a href="{{ path('campus_index') }}" class="nav-link">Campus</a></li>-->
+                {% if (app.user and app.user.administrateur == 1) %}
+                    <li class="nav-item"><a href="{{ path('administrateur_accueilAdmin')}}" class="nav-link" >Administrateur</a></li>
+                {% endif %}
+                {% if is_granted('IS_AUTHENTICATED_REMEMBERED') %}
+                    <li class="nav-item"><a href="{{path('default_accueil')}}" class="nav-link">Accueil</a></li>
+                    <li class="nav-item"><a href="{{ path('participant_edit', {'id': app.user.id}) }}" class="nav-link">Mon Profil</a></li>
+                    <li class="nav-item"><a href="{{path('app_logout')}}" class="nav-link">Se Déconnecter</a></li>
+                {% else %}
+                    <li class="nav-item"><a href="{{ path('app_login') }}" class="nav-link">Connexion</a></li>
+                {% endif %}
+            </ul>
+        </div>
     </nav>
     <main class="container-fluid">
     {% for message in app.flashes('success') %}
