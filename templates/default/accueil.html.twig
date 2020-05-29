@@ -8,19 +8,16 @@
 
     <div class="d-none d-md-block">
         <div class="row">
-            <div class="col-md-4">
+            <div class="col-md-7 text-center">
                 <h4> Filtrer les sorties</h4>
             </div>
-            <div class="col-md-8 font-weight-bold text-right">
+            <div class="col-md-5 font-weight-bold text-right">
                 Date du jour : {{ "now"|date('d/m/y') }}
             </div>
             <div class="col-md-4"></div>
             <div class=" col-md-8 font-weight-bold text-right">
                 Utilisateur connecté : {{ app.user.pseudo }}
             </div>
-
-
-
             <div class=" col-md-5 col-lg-5  ">
                 {{ form_start(formTri) }}
                 {{ form_row(formTri.campus) }}
@@ -32,26 +29,23 @@
                 {{ form_row(formTri.pasInscrit) }}
                 {{ form_row(formTri.passees) }}
             </div>
-            <div class="col-md-3 col-lg-3  mt-5   ">
-                <button
-                        type="submit" class="btn-primary btn-lg">Rechercher
-                </button>
-            </div>
+
             <div class="d-flex col-lg-12">
-                <div class="col-lg-4 ml-0">
+                <div class="col-lg-5 ml-0">
                     {{ form_label(formTri.dateMin) }}
                     {{ form_widget(formTri.dateMin) }}
                     {{ form_errors(formTri.dateMin) }}
                 </div>
-                <div class="col-lg-4">
+                <div class="col-lg-5">
                     {{ form_label(formTri.dateMax) }}
                     {{ form_widget(formTri.dateMax) }}
                     {{ form_errors(formTri.dateMax) }}
                 </div>
-                <div class="col-lg-4"> <a class="btn btn-primary  " href="{{ path('sortie_new') }}">Créer une sortie</a> </div>
             </div>
-            {{ form_end(formTri) }}
 
+            <div class="col-md-7 mt-3 mb-3 text-center"><button type="submit" class="btn-primary btn">Rechercher</button></div>
+            <div class="col-md-5 mt-3 mb-3 text-center"><a class="btn btn-success" href="{{ path('sortie_new') }}">Créer une sortie</a> </div>
+            {{ form_end(formTri) }}
             <div class="table-responsive">
                 <table class="table table-striped  header-fixed d-none d-md-block" >
                     <thead>

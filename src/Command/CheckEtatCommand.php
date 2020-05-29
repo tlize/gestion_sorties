@@ -69,16 +69,16 @@ class CheckEtatCommand extends Command
                 $compteurLigne++;
             }
             //Switch cloture => en cours
-            else if($dateHeureDebut < $dateActuelle && $etat === $etatCloture) {
+            if($dateHeureDebut < $dateActuelle && $etat === $etatCloture) {
                 $sortie->setEtat($etatEnCours);
                 $compteurLigne++;
                 $output->writeln('La sortie numéro '.$id.' a été modifiée, passage de l\'état '.$libelle.' ('
                     .$etatid.') à l\'état en cours (4).');
             }
             //Switch en cours ou annulée => passé
-            else if($etat === $etatEnCours || $etat === $etatAnnule) {
-                    $dureeAjout = new \DateInterval('PT'.$duree.'M');
-                    $dateFin = date_add($dateHeureDebut,$dureeAjout);
+            if($etat === $etatEnCours || $etat === $etatAnnule) {
+                $dureeAjout = new \DateInterval('PT'.$duree.'M');
+                $dateFin = date_add($dateHeureDebut,$dureeAjout);
                 $output->writeln($dateFin->format('d-m-Y H:i:s'));
                 if($dateFin < $dateActuelle){
                     $sortie->setEtat($etatPasse);

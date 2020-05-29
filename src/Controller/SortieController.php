@@ -65,14 +65,12 @@ class SortieController extends AbstractController
     /**
      * @Route("/{id}", name="sortie_show", methods={"GET"}, requirements={"id": "\d+"})
      * @param Sortie $sortie
-     * @param Participant $participant
      * @return Response
      */
-    public function show(Sortie $sortie, Participant $participant): Response
+    public function show(Sortie $sortie): Response
     {
         return $this->render('sortie/show.html.twig', [
             'sortie' => $sortie,
-            'participant'=>$participant
         ]);
     }
 
